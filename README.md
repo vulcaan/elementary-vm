@@ -9,7 +9,7 @@ However, Elementary VM’s assembly language has a limited type system, which is
     Comments start with a ’#’ and finish with a newline.
     A comment can be either at the start of a line, or after an instruction.
 
-<b>put</b>:
+<b>put 'v'</b>:
 
     Pushes the value v at the top of the stack. The value v must have one of the following form:
       ◦ int8(n): Creates an 8-bit integer with value n.
@@ -29,7 +29,7 @@ However, Elementary VM’s assembly language has a limited type system, which is
     Displays each value of the stack, from the most recent one to the oldest one WITHOUT CHANGING the stack.
     Each value is separated from the next one by a newline.
   
-<b>assert</b>:
+<b>assert 'v'</b>:
 
     Asserts that the value at the top of the stack is equal to the one passed as parameter for this instruction.
     If it is not the case, the program execution must stop with an error.
