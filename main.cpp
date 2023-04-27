@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <stdexcept>
 
 #include "reader.hpp"
-
+#include "parser.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +23,15 @@ int main(int argc, char *argv[])
             }
             else if (std::string(argv[1]) == "-i")
             {
-                std::cout << reader::read_from_console() << std::endl;
+                std::stringstream input;
+                input << reader::read_from_console();
+                Parser parser;
+                std::string line;
+                while (std::getline(input, line))
+                    for (auto i : parser.parse(line))
+                    {
+                        std::cout << i << std::endl;
+                    }
             }
             else
             {
@@ -33,7 +42,15 @@ int main(int argc, char *argv[])
         case 3:
             if (std::string(argv[1]) == "-f")
             {
-                std::cout << reader::read_from_file(std::string(argv[2])) << std::endl;
+                std::stringstream input;
+                input << reader::read_from_file(std::string(argv[2]));
+                Parser parser;
+                std::string line;
+                while (std::getline(input, line))
+                    for (auto i : parser.parse(line))
+                    {
+                        std::cout << i << std::endl;
+                    }
             }
             else
             {

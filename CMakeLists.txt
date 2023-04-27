@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 
 add_subdirectory(lib/reader)
+add_subdirectory(lib/parser)
 
 target_link_libraries(${PROJECT_NAME}
                     PUBLIC
                     reader
+                    parser
 )
