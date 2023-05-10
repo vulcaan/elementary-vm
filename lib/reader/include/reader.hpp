@@ -1,11 +1,8 @@
-#ifndef READER_HPP
-#define READER_HPP
+#pragma once
+#include <filesystem>
 #include <string>
 namespace reader
 {
-    std::string read_from_console(const std::string &stop = "##");
-
-    std::string read_from_file(const std::string &filename);
-}
-
-#endif // READER_HPP
+std::string read_from_console(const std::string& stop = "##");
+std::string read_from_file(const std::filesystem::path& filename);
+};  // namespace reader

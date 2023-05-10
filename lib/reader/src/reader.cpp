@@ -5,14 +5,14 @@
 #include <sstream>
 #include <stdexcept>
 
-std::string reader::read_from_console(const std::string &stop)
+std::string reader::read_from_console(const std::string& stop)
 {
     std::string input;
     std::string output;
     std::cout << "Enter commands, type \'" << stop << "\' to exit:\n";
     while (std::getline(std::cin, input))
     {
-        output += input+'\n';
+        output += input + '\n';
         if (input == stop)
         {
             break;
@@ -21,7 +21,7 @@ std::string reader::read_from_console(const std::string &stop)
     return output;
 }
 
-std::string reader::read_from_file(const std::string &filename)
+std::string reader::read_from_file(const std::filesystem::path& filename)
 {
     std::ifstream file(filename);
     std::string content;
