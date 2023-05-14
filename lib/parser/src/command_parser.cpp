@@ -1,7 +1,7 @@
-#include "parser.hpp"
+#include "command_parser.hpp"
 
 #include <sstream>
-namespace parser
+namespace command_parser
 {
 namespace
 {
@@ -35,4 +35,4 @@ std::vector<std::string> parse(const std::string& line) noexcept
     std::vector<std::string> tokens = split(line_without_comments, ' ');
     return tokens;
 }
-}  // namespace parser
+}  // namespace command_parser

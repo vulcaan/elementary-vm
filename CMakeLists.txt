@@ -5,13 +5,6 @@ project(elementary_vm)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(${CMAKE_PROJECT_NAME} apps/main.cpp)
-
 add_subdirectory(lib/reader)
 add_subdirectory(lib/parser)
-
-target_link_libraries(${PROJECT_NAME}
-                    PUBLIC
-                    reader
-                    parser
-)
+add_subdirectory(apps)

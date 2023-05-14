@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace parser
+namespace command_parser
 {
 std::vector<std::string> parse(const std::string& line) noexcept;
 };
