@@ -10,7 +10,7 @@ BreakBeforeBinaryOperators: true
 BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
-ColumnLimit: 0
+ColumnLimit: 80
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 DerivePointerBinding: false
 IndentCaseLabels: false
