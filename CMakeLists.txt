@@ -7,4 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(lib/reader)
 add_subdirectory(lib/parser)
+add_subdirectory(lib/controller)
 add_subdirectory(apps)
