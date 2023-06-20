@@ -1,8 +1,18 @@
 #pragma once
-#include <filesystem>
 #include <string>
-namespace reader
+#include <vector>
+#include <istream>
+namespace elemvm
 {
-std::string read_from_console(const std::string& stop = "##");
-std::string read_from_file(const std::filesystem::path& filename);
-};  // namespace reader
+namespace reading
+{
+
+class IReader
+{
+public:
+    virtual std::vector<std::string> read(std::istream& in) const = 0;
+    virtual ~IReader(){};
+};
+
+}  // namespace reading
+}  // namespace elemvm
