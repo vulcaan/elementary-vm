@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <string_view>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -16,13 +16,12 @@ namespace cli
 class Parser : public IParser
 {
 public:
-    bool addSubparser(std::string_view command,
+    bool addSubparser(const std::string & command,
                       std::unique_ptr<IParser> parser) noexcept;
     virtual std::unique_ptr<ICommand> parse(
-        std::vector<std::string_view> args) const override ;
-
+        const std::vector<std::string>& args) const override;
 private:
-    std::unordered_map<std::string_view, std::unique_ptr<IParser>>
+    std::unordered_map<std::string, std::unique_ptr<IParser>>
         m_commandsMap;
 };
 
@@ -30,21 +29,21 @@ class HelpParser : public IParser
 {
 public:
     virtual std::unique_ptr<ICommand> parse(
-        std::vector<std::string_view> args) const override;
+        const std::vector<std::string>& args) const override;
 };
 
 class InputInteractParser : public IParser
 {
 public:
     virtual std::unique_ptr<ICommand> parse(
-        std::vector<std::string_view> args) const override;
+        const std::vector<std::string>& args) const override;
 };
 
 class InputFromFileParser : public IParser
 {
 public:
     virtual std::unique_ptr<ICommand> parse(
-        std::vector<std::string_view> args) const override;
+        const std::vector<std::string>& args) const override;
 };
 
 }  // namespace cli
