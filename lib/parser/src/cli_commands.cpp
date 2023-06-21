@@ -48,6 +48,8 @@ InputInteractCommand::InputInteractCommand()
     auto instr_parser = std::make_unique<instructions::Parser>();
     instr_parser->addSubparser(std::string("add"),
                                std::make_unique<instructions::AddParser>());
+    instr_parser->addSubparser(std::string("put"),
+                               std::make_unique<instructions::PutParser>());
     m_instr_parser = std::move(instr_parser);
 };
 bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const

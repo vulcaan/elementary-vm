@@ -33,6 +33,13 @@ public:
         const std::vector<std::string>& args) const override;
 };
 
+class PutParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string> & args) const override;
+};
+
 // class SubParser : public IParser
 // {
 // public:
@@ -48,13 +55,6 @@ public:
 // };
 
 // class EndParser : public IParser
-// {
-// public:
-//     virtual std::unique_ptr<ICommand> parse(
-//         std::vector<std::string> args) const override;
-// };
-
-// class PutParser : public IParser
 // {
 // public:
 //     virtual std::unique_ptr<ICommand> parse(
