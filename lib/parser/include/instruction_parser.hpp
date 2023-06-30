@@ -40,32 +40,32 @@ public:
         const std::vector<std::string> & args) const override;
 };
 
-// class SubParser : public IParser
-// {
-// public:
-//     virtual std::unique_ptr<ICommand> parse(
-//         std::vector<std::string> args) const override;
-// };
+class SubParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string> & args) const override;
+};
 
-// class PopParser : public IParser
-// {
-// public:
-//     virtual std::unique_ptr<ICommand> parse(
-//         std::vector<std::string> args) const override;
-// };
+class PopParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string> & args) const override;
+};
+
+class AssertParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string> & args) const override;
+};
 
 // class EndParser : public IParser
 // {
 // public:
 //     virtual std::unique_ptr<ICommand> parse(
-//         std::vector<std::string> args) const override;
-// };
-
-// class AssertParser : public IParser
-// {
-// public:
-//     virtual std::unique_ptr<ICommand> parse(
-//         std::vector<std::string> args) const override;
+//         const std::vector<std::string> & args) const override;
 // };
 
 }  // namespace instructions

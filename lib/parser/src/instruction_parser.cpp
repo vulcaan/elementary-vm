@@ -55,6 +55,36 @@ std::unique_ptr<ICommand> PutParser::parse(
     throw std::runtime_error("Wrong Put Instruction usage.");
 };
 
+std::unique_ptr<ICommand> AssertParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 1)
+    {
+        return std::make_unique<AssertCommand>(std::stoi(args[0].data()));
+    }
+    throw std::runtime_error("Wrong Assert Instruction usage.");
+};
+
+std::unique_ptr<ICommand> SubParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<SubCommand>();
+    }
+    throw std::runtime_error("Wrong Sub Instruction usage.");
+};
+
+std::unique_ptr<ICommand> PopParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<PopCommand>();
+    }
+    throw std::runtime_error("Wrong Pop Instruction usage.");
+};
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm

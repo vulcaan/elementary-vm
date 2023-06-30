@@ -50,6 +50,12 @@ InputInteractCommand::InputInteractCommand()
                                std::make_unique<instructions::AddParser>());
     instr_parser->addSubparser(std::string("put"),
                                std::make_unique<instructions::PutParser>());
+    instr_parser->addSubparser(std::string("sub"),
+                               std::make_unique<instructions::SubParser>());
+    instr_parser->addSubparser(std::string("assert"),
+                               std::make_unique<instructions::AssertParser>());
+    instr_parser->addSubparser(std::string("pop"),
+                               std::make_unique<instructions::PopParser>());
     m_instr_parser = std::move(instr_parser);
 };
 bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const
@@ -62,7 +68,9 @@ bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const
         try
         {
             auto command = m_instr_parser->parse(m_tokenizer->tokenize(line));
-            command->run(storage);
+            auto instr_result = command->run(storage);
+            if (!instr_result)
+                return false;
         }
         catch (const std::exception& ex)
         {
