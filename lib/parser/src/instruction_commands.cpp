@@ -80,6 +80,12 @@ InstrResult SubCommand::run(std::shared_ptr<std::stack<int>> storage) const
     return InstrResult::SUCCESS;
 };
 
+InstrResult EndCommand::run(std::shared_ptr<std::stack<int>> storage) const
+{
+    std::cout << "[EndCommand::run] Start.\n";
+    return InstrResult::END;
+};
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm

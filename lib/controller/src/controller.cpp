@@ -6,7 +6,8 @@ ElementaryVM::ElementaryVM()
     : m_out(std::cout)
 {
     m_storage = std::make_shared<std::stack<int>>();
-
+    // TODO(3): Unify objects for both short and long forms
+    //          of arguments.
     auto cli_parser = std::make_unique<pc::Parser>();
     cli_parser->addSubparser(std::string("-h"),
                              std::make_unique<pc::HelpParser>());

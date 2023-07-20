@@ -39,6 +39,8 @@ std::unique_ptr<instructions::Parser> generateInstrParser()
                                std::make_unique<instructions::AssertParser>());
     instr_parser->addSubparser(std::string("pop"),
                                std::make_unique<instructions::PopParser>());
+    instr_parser->addSubparser(std::string("end"),
+                               std::make_unique<instructions::EndParser>());
     return instr_parser;
 };
 

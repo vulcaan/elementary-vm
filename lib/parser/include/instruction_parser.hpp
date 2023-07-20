@@ -61,12 +61,12 @@ public:
         const std::vector<std::string> & args) const override;
 };
 
-// class EndParser : public IParser
-// {
-// public:
-//     virtual std::unique_ptr<ICommand> parse(
-//         const std::vector<std::string> & args) const override;
-// };
+class EndParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string> & args) const override;
+};
 
 }  // namespace instructions
 }  // namespace parsing

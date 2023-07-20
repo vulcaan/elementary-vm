@@ -55,6 +55,14 @@ private:
     int m_value;
 };
 
+class EndCommand : public ICommand
+{
+public:
+    EndCommand() = default;
+    virtual InstrResult run(
+        std::shared_ptr<std::stack<int>> storage) const override;
+};
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm

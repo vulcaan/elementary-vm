@@ -85,6 +85,16 @@ std::unique_ptr<ICommand> PopParser::parse(
     throw std::runtime_error("Wrong Pop Instruction usage.");
 };
 
+std::unique_ptr<ICommand> EndParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<EndCommand>();
+    }
+    throw std::runtime_error("Wrong End Instruction usage.");
+};
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
