@@ -7,7 +7,7 @@ namespace parsing
 {
 namespace instructions
 {
-bool AddCommand::run(std::shared_ptr<std::stack<int>> storage) const
+InstrResult AddCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
     std::cout << "[AddCommand::run] Start\n";
     if (storage->size() < 2)
@@ -21,17 +21,17 @@ bool AddCommand::run(std::shared_ptr<std::stack<int>> storage) const
     auto value2 = storage->top();
     storage->pop();
     storage->push(value1 + value2);
-    return true;
+    return InstrResult::SUCCESS;
 };
-bool PutCommand::run(std::shared_ptr<std::stack<int>> storage) const
+InstrResult PutCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
     std::cout << "[PutCommand::run] Start.\n";
     std::cout << "[PutCommand::run] Put " << m_value << " to storage\n";
     storage->push(m_value);
-    return true;
+    return InstrResult::SUCCESS;
 };
 
-bool AssertCommand::run(std::shared_ptr<std::stack<int>> storage) const
+InstrResult AssertCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
     std::cout << "[AssertCommand::run] Start.\n";
     std::cout << "[AssertCommand::run] Assert top value equals \"" << m_value
@@ -48,10 +48,10 @@ bool AssertCommand::run(std::shared_ptr<std::stack<int>> storage) const
         throw new std::runtime_error(
             "The value on the top of the storage doesn't equal passed value.");
     }
-    return true;
+    return InstrResult::SUCCESS;
 };
 
-bool PopCommand::run(std::shared_ptr<std::stack<int>> storage) const
+InstrResult PopCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
     std::cout << "[PopCommand::run] Start.\n";
     if (storage->empty())
@@ -60,10 +60,10 @@ bool PopCommand::run(std::shared_ptr<std::stack<int>> storage) const
             "Not enough elements in the storage to use the \'pop\' "
             "instruction!");
     }
-    return true;
+    return InstrResult::SUCCESS;
 };
 
-bool SubCommand::run(std::shared_ptr<std::stack<int>> storage) const
+InstrResult SubCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
     std::cout << "[SubCommand::run] Start.\n";
     if (storage->size() < 2)
@@ -77,7 +77,7 @@ bool SubCommand::run(std::shared_ptr<std::stack<int>> storage) const
     auto value2 = storage->top();
     storage->pop();
     storage->push(value1 - value2);
-    return true;
+    return InstrResult::SUCCESS;
 };
 
 }  // namespace instructions

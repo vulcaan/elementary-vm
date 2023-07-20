@@ -1,6 +1,6 @@
 #pragma once
-#include <stack>
 #include <memory>
+#include <stack>
 namespace elemvm
 {
 namespace parsing
@@ -16,12 +16,19 @@ public:
 }  // namespace cli
 namespace instructions
 {
+enum class InstrResult
+{
+    SUCCESS,
+    END,
+    ERROR
+};
 class ICommand
 {
 public:
-    virtual bool run(std::shared_ptr<std::stack<int>> storage) const = 0;
+    virtual InstrResult run(std::shared_ptr<std::stack<int>> storage) const = 0;
     virtual ~ICommand(){};
 };
+
 }  // namespace instructions
 
 }  // namespace parsing

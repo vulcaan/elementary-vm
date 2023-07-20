@@ -26,24 +26,7 @@ bool HelpCommand::run(std::shared_ptr<std::stack<int>> storage) const
     return false;
 };
 
-bool InputFromFileCommand::run(std::shared_ptr<std::stack<int>> storage) const
-{
-    std::cout << "[InputFromFileCommand::run] Start";
-    return true;
-};
-
-void InputInteractCommand::setReader(std::unique_ptr<reading::IReader> reader)
-{
-    m_reader = std::move(reader);
-};
-void InputInteractCommand::setTokenizer(
-    std::unique_ptr<instructions::InstructionTokenizer> tokenizer)
-{
-    m_tokenizer = std::move(tokenizer);
-};
-InputInteractCommand::InputInteractCommand()
-    : m_reader(std::make_unique<reading::ConsoleReader>())
-    , m_tokenizer(std::make_unique<instructions::InstructionTokenizer>())
+std::unique_ptr<instructions::Parser> generateInstrParser()
 {
     auto instr_parser = std::make_unique<instructions::Parser>();
     instr_parser->addSubparser(std::string("add"),
@@ -56,7 +39,92 @@ InputInteractCommand::InputInteractCommand()
                                std::make_unique<instructions::AssertParser>());
     instr_parser->addSubparser(std::string("pop"),
                                std::make_unique<instructions::PopParser>());
-    m_instr_parser = std::move(instr_parser);
+    return instr_parser;
+};
+
+bool InputFromFileCommand::run(std::shared_ptr<std::stack<int>> storage) const
+{
+    std::cout << "[InputFromFileCommand::run] Start\n";
+    // TODO(1): Fix workaround with unused iostream argument.
+    //       Now used only path variable that is passed via FileReader Ctor.
+    //       The fix might be like the following:
+    //       1) Unbind FileReader and ConsoleReader from
+    //          the same interface (testing via mocks and shared ptrs);
+    //       2) Create interface which be useful for both Readers.
+    //
+    //       Also this method may be unified with InteractiveInput.
+    auto lines = m_reader->read(std::cin);
+    std::uint16_t lineCounter = 1;
+    for (const auto& line : lines)
+    {
+        try
+        {
+            auto unparsed = m_tokenizer->tokenize(line);
+            if (unparsed.empty())
+            {
+                continue;
+            }
+            auto command = m_instr_parser->parse(unparsed);
+            auto instr_result = command->run(storage);
+            // TODO(2): Fix mixing return codes with exceptions.
+            if (instr_result == instructions::InstrResult::ERROR)
+                return false;
+            if (instr_result == instructions::InstrResult::END)
+                break;
+            lineCounter++;
+        }
+        catch (const std::exception& ex)
+        {
+            std::cout << "Error at line: " << lineCounter << '\n'
+                      << ex.what() << std::endl;
+            return false;
+        }
+    }
+    return true;
+};
+
+InputFromFileCommand::InputFromFileCommand(std::filesystem::path path)
+    // TODO(1): refer to other TODO with the same number
+    : m_reader(std::make_unique<reading::FileReader>(path))
+    , m_path(path)
+    , m_tokenizer(std::make_unique<instructions::InstructionTokenizer>())
+{
+    m_instr_parser = generateInstrParser();
+};
+
+void InputFromFileCommand::setReader(std::unique_ptr<reading::IReader> reader)
+{
+    m_reader = std::move(reader);
+};
+
+void InputFromFileCommand::setInstrParser(
+    std::unique_ptr<instructions::IParser> instrParser)
+{
+    m_instr_parser = std::move(instrParser);
+};
+
+void InputInteractCommand::setReader(std::unique_ptr<reading::IReader> reader)
+{
+    m_reader = std::move(reader);
+};
+
+void InputInteractCommand::setInstrParser(
+    std::unique_ptr<instructions::IParser> instrParser)
+{
+    m_instr_parser = std::move(instrParser);
+}
+
+void InputInteractCommand::setTokenizer(
+    std::unique_ptr<instructions::InstructionTokenizer> tokenizer)
+{
+    m_tokenizer = std::move(tokenizer);
+};
+
+InputInteractCommand::InputInteractCommand()
+    : m_reader(std::make_unique<reading::ConsoleReader>())
+    , m_tokenizer(std::make_unique<instructions::InstructionTokenizer>())
+{
+    m_instr_parser = generateInstrParser();
 };
 bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const
 {
@@ -67,10 +135,19 @@ bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const
     {
         try
         {
-            auto command = m_instr_parser->parse(m_tokenizer->tokenize(line));
+            auto unparsed = m_tokenizer->tokenize(line);
+            if (unparsed.empty())
+            {
+                continue;
+            }
+            auto command = m_instr_parser->parse(unparsed);
             auto instr_result = command->run(storage);
-            if (!instr_result)
+            // TODO(2): Fix mixing return codes with exceptions.
+            if (instr_result == instructions::InstrResult::ERROR)
                 return false;
+            if (instr_result == instructions::InstrResult::END)
+                break;
+            lineCounter++;
         }
         catch (const std::exception& ex)
         {

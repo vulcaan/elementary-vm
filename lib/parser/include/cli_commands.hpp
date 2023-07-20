@@ -20,6 +20,7 @@ namespace filesystem = ::std::experimental::filesystem;
 
 #include "command.hpp"
 #include "console_reader.hpp"
+#include "file_reader.hpp"
 #include "instruction_tokenizer.hpp"
 #include "parser.hpp"
 
@@ -44,12 +45,18 @@ private:
 class InputFromFileCommand : public ICommand
 {
 public:
-    InputFromFileCommand(std::filesystem::path path)
-        : m_path(path){};
+    InputFromFileCommand(std::filesystem::path path);
     virtual bool run(std::shared_ptr<std::stack<int>> storage) const override;
+    void setReader(std::unique_ptr<reading::IReader> reader);
+    void setTokenizer(
+        std::unique_ptr<instructions::InstructionTokenizer> tokenizer);
+    void setInstrParser(std::unique_ptr<instructions::IParser> instrParser);
 
 private:
     std::filesystem::path m_path;
+    std::unique_ptr<instructions::IParser> m_instr_parser;
+    std::unique_ptr<reading::IReader> m_reader;
+    std::unique_ptr<instructions::ITokenizer> m_tokenizer;
 };
 
 class InputInteractCommand : public ICommand
@@ -61,6 +68,7 @@ public:
     void setReader(std::unique_ptr<reading::IReader> reader);
     void setTokenizer(
         std::unique_ptr<instructions::InstructionTokenizer> tokenizer);
+    void setInstrParser(std::unique_ptr<instructions::IParser> instrParser);
 
 private:
     std::unique_ptr<instructions::IParser> m_instr_parser;

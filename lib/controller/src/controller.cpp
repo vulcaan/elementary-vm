@@ -28,6 +28,7 @@ int ElementaryVM::run(int argc, char* argv[])
     std::cout << "[ElementaryVM::run] Start\n";
     try
     {
+        // TODO(2): Fix mixing return codes with exceptions.
         auto command = m_cli_parser->parse({argv + 1, argv + argc});
         auto result = command->run(m_storage);
         return result;
