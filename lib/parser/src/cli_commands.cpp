@@ -10,7 +10,9 @@ namespace cli
 {
 void HelpCommand::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
 
-bool HelpCommand::run(std::shared_ptr<std::stack<int>> storage) const
+bool HelpCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+        storage) const
 {
     if (m_out)
     {
@@ -44,7 +46,9 @@ std::unique_ptr<instructions::Parser> generateInstrParser()
     return instr_parser;
 };
 
-bool InputFromFileCommand::run(std::shared_ptr<std::stack<int>> storage) const
+bool InputFromFileCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+        storage) const
 {
     std::cout << "[InputFromFileCommand::run] Start\n";
     // TODO(1): Fix workaround with unused iostream argument.
@@ -128,7 +132,9 @@ InputInteractCommand::InputInteractCommand()
 {
     m_instr_parser = generateInstrParser();
 };
-bool InputInteractCommand::run(std::shared_ptr<std::stack<int>> storage) const
+bool InputInteractCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+        storage) const
 {
     std::cout << "[InputInteractCommand::run] Start\n";
     auto lines = m_reader->read(std::cin);

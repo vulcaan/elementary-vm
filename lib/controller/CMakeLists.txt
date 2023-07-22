@@ -13,4 +13,5 @@ target_link_libraries(${PROJECT_NAME}
                     PUBLIC
                         reading
                         parsing
+                        operands
 )

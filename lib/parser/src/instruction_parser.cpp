@@ -50,7 +50,7 @@ std::unique_ptr<ICommand> PutParser::parse(
 {
     if (args.size() == 1)
     {
-        return std::make_unique<PutCommand>(std::stoi(args[0].data()));
+        return std::make_unique<PutCommand>(m_op_parser->parse(args[0]));
     }
     throw std::runtime_error("Wrong Put Instruction usage.");
 };
@@ -60,7 +60,7 @@ std::unique_ptr<ICommand> AssertParser::parse(
 {
     if (args.size() == 1)
     {
-        return std::make_unique<AssertCommand>(std::stoi(args[0].data()));
+        return std::make_unique<AssertCommand>(m_op_parser->parse(args[0]));
     }
     throw std::runtime_error("Wrong Assert Instruction usage.");
 };
@@ -94,6 +94,28 @@ std::unique_ptr<ICommand> EndParser::parse(
     }
     throw std::runtime_error("Wrong End Instruction usage.");
 };
+
+PutParser::PutParser()
+    : m_op_parser(std::make_shared<operands::parsing::OperandParser>())
+{
+}
+
+void PutParser::setOperandsParser(
+    std::shared_ptr<operands::parsing::IParser> op_parser)
+{
+    m_op_parser = op_parser;
+}
+
+AssertParser::AssertParser()
+    : m_op_parser(std::make_shared<operands::parsing::OperandParser>())
+{
+}
+
+void AssertParser::setOperandsParser(
+    std::shared_ptr<operands::parsing::IParser> op_parser)
+{
+    m_op_parser = op_parser;
+}
 
 }  // namespace instructions
 }  // namespace parsing

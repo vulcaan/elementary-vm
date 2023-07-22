@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "cli_parser.hpp"
+#include "ioperand.hpp"
 
 namespace elemvm
 {
@@ -20,6 +21,6 @@ private:
     std::unique_ptr<parsing::cli::IParser> m_cli_parser;
     std::ostream& m_out;
 
-    std::shared_ptr<std::stack<int>> m_storage;
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> m_storage;
 };
 }  // namespace elemvm

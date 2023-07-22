@@ -5,7 +5,8 @@ namespace elemvm
 ElementaryVM::ElementaryVM()
     : m_out(std::cout)
 {
-    m_storage = std::make_shared<std::stack<int>>();
+    m_storage = std::make_shared<
+        std::stack<std::shared_ptr<const operands::IOperand>>>();
     // TODO(3): Unify objects for both short and long forms
     //          of arguments.
     auto cli_parser = std::make_unique<pc::Parser>();

@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <stack>
+
+#include "ioperand.hpp"
 namespace elemvm
 {
 namespace parsing
@@ -10,7 +12,9 @@ namespace cli
 class ICommand
 {
 public:
-    virtual bool run(std::shared_ptr<std::stack<int>> storage) const = 0;
+    virtual bool run(
+        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+            storage) const = 0;
     virtual ~ICommand(){};
 };
 }  // namespace cli
@@ -25,7 +29,9 @@ enum class InstrResult
 class ICommand
 {
 public:
-    virtual InstrResult run(std::shared_ptr<std::stack<int>> storage) const = 0;
+    virtual InstrResult run(
+        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+            storage) const = 0;
     virtual ~ICommand(){};
 };
 
