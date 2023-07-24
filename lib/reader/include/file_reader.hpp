@@ -1,19 +1,5 @@
 #pragma once
 
-#if defined(_MSC_VER) && _MSC_VER < 1914
-#include <experimental/filesystem>
-#elif defined(__has_include)
-#if __has_include(<filesystem>)
-#include <filesystem>
-#elif __has_include(<experimental/filesystem>)
-#include <experimental/filesystem>
-namespace std
-{
-namespace filesystem = ::std::experimental::filesystem;
-}
-#endif
-#endif
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -27,7 +13,7 @@ namespace reading
 class FileReader : public IReader
 {
 public:
-    FileReader(std::filesystem::path path)
+    FileReader(std::string path)
         : m_out(std::cout)
         , m_path(path){};
 
@@ -36,7 +22,7 @@ public:
 
 private:
     std::ostream& m_out;
-    std::filesystem::path m_path;
+    std::string m_path;
 };
 
 }  // namespace reading

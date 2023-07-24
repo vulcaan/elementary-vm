@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(elementary_vm)
 
-set(CMAKE_CXX_STANDARD 17)
+add_compile_options(-Wall -Wextra -Werror)
+
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(lib/reader)

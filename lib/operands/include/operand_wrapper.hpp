@@ -18,6 +18,7 @@ public:
     OperandWrapper(DataType value = 0)
         : m_value{value}
     {
+        m_str_value = std::to_string(m_value);
     }
 
     const IOperand* operator+(const IOperand& rhs) const override
@@ -77,10 +78,11 @@ public:
         return !(*this == rhs);
     };
 
-    std::string toString() const override { return std::to_string(m_value); }
+    const std::string& toString() const override { return m_str_value; }
 
 protected:
     DataType m_value;
+    std::string m_str_value;
 };
 
 }  // namespace operands

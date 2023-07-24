@@ -15,6 +15,11 @@ bool HelpCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
+    // TODO(1): Fix unused argument
+    if (!storage->empty())
+    {
+        std::cout << "Corrupted data: storage isn't empty during --help";
+    }
     if (m_out)
     {
         m_out << "Elementary VM "
@@ -90,7 +95,7 @@ bool InputFromFileCommand::run(
     return true;
 };
 
-InputFromFileCommand::InputFromFileCommand(std::filesystem::path path)
+InputFromFileCommand::InputFromFileCommand(std::string path)
     // TODO(1): refer to other TODO with the same number
     : m_reader(std::make_unique<reading::FileReader>(path))
     , m_path(path)

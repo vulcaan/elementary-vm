@@ -1,19 +1,5 @@
 #pragma once
 
-#if defined(_MSC_VER) && _MSC_VER < 1914
-#include <experimental/filesystem>
-#elif defined(__has_include)
-#if __has_include(<filesystem>)
-#include <filesystem>
-#elif __has_include(<experimental/filesystem>)
-#include <experimental/filesystem>
-namespace std
-{
-namespace filesystem = ::std::experimental::filesystem;
-}
-#endif
-#endif
-
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -48,7 +34,7 @@ private:
 class InputFromFileCommand : public ICommand
 {
 public:
-    InputFromFileCommand(std::filesystem::path path);
+    InputFromFileCommand(std::string path);
     virtual bool run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
@@ -58,9 +44,9 @@ public:
     void setInstrParser(std::unique_ptr<instructions::IParser> instrParser);
 
 private:
-    std::filesystem::path m_path;
-    std::unique_ptr<instructions::IParser> m_instr_parser;
     std::unique_ptr<reading::IReader> m_reader;
+    std::string m_path;
+    std::unique_ptr<instructions::IParser> m_instr_parser;
     std::unique_ptr<instructions::ITokenizer> m_tokenizer;
 };
 

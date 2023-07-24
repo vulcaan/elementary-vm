@@ -30,7 +30,8 @@ InstrResult PutCommand::run(
         storage) const
 {
     std::cout << "[PutCommand::run] Start.\n";
-    std::cout << "[PutCommand::run] Put " << m_value->toString() << " to storage\n";
+    std::cout << "[PutCommand::run] Put " << m_value->toString()
+              << " to storage\n";
     storage->push(std::shared_ptr<const operands::IOperand>{m_value});
     return InstrResult::SUCCESS;
 };
@@ -51,8 +52,8 @@ InstrResult AssertCommand::run(
     auto top_value = storage->top();
     if (*top_value != *m_value)
     {
-        std::cerr << "storage top value: " << top_value->toString() << std::endl<<
-        "instr value: " << m_value->toString() << std::endl;
+        std::cerr << "storage top value: " << top_value->toString() << std::endl
+                  << "instr value: " << m_value->toString() << std::endl;
         throw std::runtime_error(
             "The value on the top of the storage doesn't equal passed value.");
     }
@@ -97,6 +98,14 @@ InstrResult EndCommand::run(
         storage) const
 {
     std::cout << "[EndCommand::run] Start.\n";
+    // TODO(1): Fix unused argument
+    //          dump nonempty storage?
+    if (!storage->empty())
+    {
+        std::cout << "[warning] The End Instruction was passed while storage "
+                     "isn't empty."
+                  << std::endl;
+    }
     return InstrResult::END;
 };
 
