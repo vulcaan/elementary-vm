@@ -17,7 +17,7 @@ OperandParser::OperandParser()
     m_typesMap["float32"] = eOperandType::Float32;
     m_typesMap["float64"] = eOperandType::Float64;
 }
-std::shared_ptr<IOperand> OperandParser::parse(const std::string& arg)
+std::shared_ptr<const IOperand> OperandParser::parse(const std::string& arg)
 {
     std::regex pattern(
         R"((int8|int16|int32|int64|float32|float64)\((-?\d+(\.\d+)?)\))");

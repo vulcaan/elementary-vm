@@ -12,7 +12,7 @@ namespace parsing
 class IParser
 {
 public:
-    virtual std::shared_ptr<IOperand> parse(const std::string& arg) = 0;
+    virtual std::shared_ptr<const IOperand> parse(const std::string& arg) = 0;
     virtual ~IParser(){};
 };
 

@@ -31,40 +31,77 @@ Creator::Creator()
         return this->createFloat64(value);
     });
 }
-std::shared_ptr<IOperand> Creator::createOperand(eOperandType type,
-                                                 const std::string& value) const
+std::shared_ptr<const IOperand> Creator::createOperand(
+    eOperandType type, const std::string& value) const
 {
     return m_creators[static_cast<int>(type)](value);
 }
-const std::shared_ptr<IOperand> Creator::createInt8(
+std::shared_ptr<const IOperand> Creator::createInt8(
     const std::string& value) const
 {
-    return std::make_shared<Int8>(std::stoll(value));
+    auto num_value = std::stoll(value);
+
+    if (checkOverflow<char, long long>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Int8>(num_value);
 }
-const std::shared_ptr<IOperand> Creator::createInt16(
+std::shared_ptr<const IOperand> Creator::createInt16(
     const std::string& value) const
 {
-    return std::make_shared<Int16>(std::stoll(value));
+    auto num_value = std::stoll(value);
+
+    if (checkOverflow<short, long long>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Int16>(num_value);
 }
-std::shared_ptr<IOperand> Creator::createInt32(const std::string& value) const
-{
-    return std::make_shared<Int32>(std::stoll(value));
-}
-const std::shared_ptr<IOperand> Creator::createInt64(
+std::shared_ptr<const IOperand> Creator::createInt32(
     const std::string& value) const
 {
-    return std::make_shared<Int64>(std::stoll(value));
+    auto num_value = std::stoll(value);
+
+    if (checkOverflow<int, long long>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Int32>(num_value);
+}
+std::shared_ptr<const IOperand> Creator::createInt64(
+    const std::string& value) const
+{
+    auto num_value = std::stoll(value);
+
+    if (checkOverflow<long long, long long>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Int64>(num_value);
 }
 
-const std::shared_ptr<IOperand> Creator::createFloat32(
+std::shared_ptr<const IOperand> Creator::createFloat32(
     const std::string& value) const
 {
-    return std::make_shared<Float32>(std::stod(value));
+    auto num_value = std::stod(value);
+
+    if (checkOverflow<float, double>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Float32>(num_value);
 }
-const std::shared_ptr<IOperand> Creator::createFloat64(
+std::shared_ptr<const IOperand> Creator::createFloat64(
     const std::string& value) const
 {
-    return std::make_shared<Float64>(std::stod(value));
+    auto num_value = std::stod(value);
+
+    if (checkOverflow<double, double>(num_value))
+    {
+        throw std::runtime_error("Error: Data overflow!");
+    }
+    return std::make_shared<Float64>(num_value);
 }
 }  // namespace operands
 }  // namespace elemvm

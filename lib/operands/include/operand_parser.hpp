@@ -13,7 +13,7 @@ class OperandParser : public IParser
 {
 public:
     OperandParser();
-    virtual std::shared_ptr<IOperand> parse(const std::string& arg) override;
+    virtual std::shared_ptr<const IOperand> parse(const std::string& arg) override;
     void setCreator(std::shared_ptr<Creator> creator);
 
 private:

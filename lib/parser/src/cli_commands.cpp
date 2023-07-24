@@ -74,6 +74,7 @@ bool InputFromFileCommand::run(
             auto unparsed = m_tokenizer->tokenize(line);
             if (unparsed.empty())
             {
+                lineCounter++;
                 continue;
             }
             auto command = m_instr_parser->parse(unparsed);
@@ -152,6 +153,7 @@ bool InputInteractCommand::run(
             auto unparsed = m_tokenizer->tokenize(line);
             if (unparsed.empty())
             {
+                lineCounter++;
                 continue;
             }
             auto command = m_instr_parser->parse(unparsed);

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <limits>
 
 #include "ifloat.hpp"
@@ -25,16 +26,12 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value
-                = (rhs.getType() >= eOperandType::Float32
-                       ? static_cast<const IFloat&>(rhs).getValue()
-                       : static_cast<const IInteger&>(rhs).getValue());
-
-            if (m_value > std::numeric_limits<DataType>::max() - rhs_value)
+            auto rhs_value = getRhsValue(rhs);
+            if ((rhs_value >= 0 && m_value > ((int)std::numeric_limits<DataType>::max() - rhs_value))
+                || (rhs_value < 0 && m_value < ((int)std::numeric_limits<DataType>::lowest() - rhs_value)))
             {
                 throw std::runtime_error("Data type overflow detected!");
             }
-
             return new Class(m_value + rhs_value);
         }
         else
@@ -47,12 +44,10 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value
-                = (rhs.getType() >= eOperandType::Float32
-                       ? static_cast<const IFloat&>(rhs).getValue()
-                       : static_cast<const IInteger&>(rhs).getValue());
+            auto rhs_value = getRhsValue(rhs);
 
-            if (m_value < std::numeric_limits<DataType>::min() - rhs_value)
+            if ((rhs_value >= 0 && m_value < std::numeric_limits<DataType>::lowest() + rhs_value)
+                || (rhs_value < 0 && m_value > std::numeric_limits<DataType>::max() + rhs_value))
             {
                 throw std::runtime_error("Data type overflow detected!");
             }
@@ -65,11 +60,28 @@ public:
         }
     }
 
+    const IOperand* operator*(const IOperand& rhs) const override
+    {
+        if (this->getType() >= rhs.getType())
+        {
+            auto rhs_value = getRhsValue(rhs);
+
+            if (m_value > std::numeric_limits<DataType>::max() / rhs_value)
+            {
+                throw std::runtime_error("Data type overflow detected!");
+            }
+
+            return new Class(m_value * rhs_value);
+        }
+        else
+        {
+            return rhs * *this;
+        }
+    }
+
     bool operator==(const IOperand& rhs) const override
     {
-        auto rhs_value = (rhs.getType() >= eOperandType::Float32
-                              ? static_cast<const IFloat&>(rhs).getValue()
-                              : static_cast<const IInteger&>(rhs).getValue());
+        auto rhs_value = getRhsValue(rhs);
         return this->m_value == rhs_value;
     };
 
@@ -83,6 +95,14 @@ public:
 protected:
     DataType m_value;
     std::string m_str_value;
+
+private:
+    auto getRhsValue(const IOperand& rhs) const
+    {
+        return (rhs.getType() >= eOperandType::Float32
+                    ? static_cast<const IFloat&>(rhs).getValue()
+                    : static_cast<const IInteger&>(rhs).getValue());
+    }
 };
 
 }  // namespace operands
