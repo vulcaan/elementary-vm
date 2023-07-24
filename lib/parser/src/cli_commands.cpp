@@ -26,8 +26,7 @@ bool HelpCommand::run(
               << "[options]" << std::endl
               << "Options:" << std::endl
               << "-h                    Print this help" << std::endl
-              << "-i                    Get commands from a console (## to end)"
-              << std::endl
+              << "-i                    Get commands from a console (## to end)" << std::endl
               << "-f <path-to-file>     Get commands from a file" << std::endl;
         return true;
     }
@@ -41,6 +40,8 @@ std::unique_ptr<instructions::Parser> generateInstrParser()
                                std::make_unique<instructions::AddParser>());
     instr_parser->addSubparser(std::string("mul"),
                                std::make_unique<instructions::MulParser>());
+    instr_parser->addSubparser(std::string("div"),
+                               std::make_unique<instructions::DivParser>());
     instr_parser->addSubparser(std::string("put"),
                                std::make_unique<instructions::PutParser>());
     instr_parser->addSubparser(std::string("sub"),

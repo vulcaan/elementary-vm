@@ -55,6 +55,16 @@ std::unique_ptr<ICommand> MulParser::parse(
     throw std::runtime_error("Wrong Mul Instruction usage.");
 };
 
+std::unique_ptr<ICommand> DivParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<DivCommand>();
+    }
+    throw std::runtime_error("Wrong Div Instruction usage.");
+};
+
 std::unique_ptr<ICommand> PutParser::parse(
     const std::vector<std::string>& args) const
 {

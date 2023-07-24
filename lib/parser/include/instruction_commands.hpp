@@ -26,6 +26,15 @@ public:
             storage) const override;
 };
 
+class DivCommand : public ICommand
+{
+public:
+    DivCommand() = default;
+    virtual InstrResult run(
+        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+            storage) const override;
+};
+
 class PutCommand : public ICommand
 {
 public:

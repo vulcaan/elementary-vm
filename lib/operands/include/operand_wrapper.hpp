@@ -67,7 +67,7 @@ public:
             auto rhs_value = getRhsValue(rhs);
 
             if ((rhs_value > 0 && m_value > std::numeric_limits<DataType>::max() / rhs_value)
-            || (rhs_value < 0 && m_value < std::numeric_limits<DataType>::min() / rhs_value))
+                || (rhs_value < 0 && m_value < std::numeric_limits<DataType>::lowest() / rhs_value))
             {
                 throw std::runtime_error("Data type overflow detected!");
             }
@@ -77,6 +77,28 @@ public:
         else
         {
             return rhs * *this;
+        }
+    }
+
+    const IOperand* operator/(const IOperand& rhs) const override
+    {
+        if (this->getType() >= rhs.getType())
+        {
+            auto rhs_value = getRhsValue(rhs);
+            if (rhs_value == 0)
+            {
+                throw std::runtime_error("Division by zero detected!");
+            }
+            if (m_value == std::numeric_limits<DataType>::lowest() && rhs_value == -1)
+            {
+                throw std::runtime_error("Data type overflow detected!");
+            }
+
+            return new Class(m_value / rhs_value);
+        }
+        else
+        {
+            return rhs / *this;
         }
     }
 
