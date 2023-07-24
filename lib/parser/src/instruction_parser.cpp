@@ -45,6 +45,16 @@ std::unique_ptr<ICommand> AddParser::parse(
     throw std::runtime_error("Wrong Add Instruction usage.");
 };
 
+std::unique_ptr<ICommand> MulParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<MulCommand>();
+    }
+    throw std::runtime_error("Wrong Mul Instruction usage.");
+};
+
 std::unique_ptr<ICommand> PutParser::parse(
     const std::vector<std::string>& args) const
 {

@@ -66,7 +66,8 @@ public:
         {
             auto rhs_value = getRhsValue(rhs);
 
-            if (m_value > std::numeric_limits<DataType>::max() / rhs_value)
+            if ((rhs_value > 0 && m_value > std::numeric_limits<DataType>::max() / rhs_value)
+            || (rhs_value < 0 && m_value < std::numeric_limits<DataType>::min() / rhs_value))
             {
                 throw std::runtime_error("Data type overflow detected!");
             }

@@ -16,17 +16,27 @@ public:
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
+
+class MulCommand : public ICommand
+{
+public:
+    MulCommand() = default;
+    virtual InstrResult run(
+        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+            storage) const override;
+};
+
 class PutCommand : public ICommand
 {
 public:
-    PutCommand(std::shared_ptr<operands::IOperand> value)
+    PutCommand(std::shared_ptr<const operands::IOperand> value)
         : m_value(value){};
     virtual InstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 
 private:
-    std::shared_ptr<operands::IOperand> m_value;
+    std::shared_ptr<const operands::IOperand> m_value;
 };
 
 class PopCommand : public ICommand
@@ -50,14 +60,14 @@ public:
 class AssertCommand : public ICommand
 {
 public:
-    AssertCommand(std::shared_ptr<operands::IOperand> value)
+    AssertCommand(std::shared_ptr<const operands::IOperand> value)
         : m_value(value){};
     virtual InstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 
 private:
-    std::shared_ptr<operands::IOperand> m_value;
+    std::shared_ptr<const operands::IOperand> m_value;
 };
 
 class EndCommand : public ICommand
