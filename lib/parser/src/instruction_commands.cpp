@@ -14,7 +14,7 @@ InstrResult AddCommand::run(
     std::cout << "[AddCommand::run] Start\n";
     if (storage->size() < 2)
     {
-        throw new std::runtime_error(
+        throw std::runtime_error(
             "Not enough elements in the storage to use the \'add\' "
             "instruction!");
     }
@@ -44,7 +44,7 @@ InstrResult AssertCommand::run(
               << m_value->toString() << "\"\n";
     if (storage->size() < 1)
     {
-        throw new std::runtime_error(
+        throw std::runtime_error(
             "Not enough elements in the storage to use the \'assert\' "
             "instruction!");
     }
@@ -53,7 +53,7 @@ InstrResult AssertCommand::run(
     {
         std::cerr << "storage top value: " << top_value->toString() << std::endl<<
         "instr value: " << m_value->toString() << std::endl;
-        throw new std::runtime_error(
+        throw std::runtime_error(
             "The value on the top of the storage doesn't equal passed value.");
     }
     return InstrResult::SUCCESS;
@@ -66,7 +66,7 @@ InstrResult PopCommand::run(
     std::cout << "[PopCommand::run] Start.\n";
     if (storage->empty())
     {
-        throw new std::runtime_error(
+        throw std::runtime_error(
             "Not enough elements in the storage to use the \'pop\' "
             "instruction!");
     }
@@ -80,7 +80,7 @@ InstrResult SubCommand::run(
     std::cout << "[SubCommand::run] Start.\n";
     if (storage->size() < 2)
     {
-        throw new std::runtime_error(
+        throw std::runtime_error(
             "Not enough elements in the storage to use the \'sub\' "
             "instruction!");
     }

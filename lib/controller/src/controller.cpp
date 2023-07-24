@@ -33,11 +33,16 @@ int ElementaryVM::run(int argc, char* argv[])
         // TODO(2): Fix mixing return codes with exceptions.
         auto command = m_cli_parser->parse({argv + 1, argv + argc});
         auto result = command->run(m_storage);
-        return result;
+        return result ? 0 : 1;
     }
     catch (std::runtime_error& e)
     {
         m_out << e.what() << std::endl;
+    }
+    catch (...)
+    {
+        m_out << "Unexpected exception has been thrown, aborting..."
+              << std::endl;
     };
     return 1;
 };
