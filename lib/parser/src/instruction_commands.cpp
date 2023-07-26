@@ -64,6 +64,25 @@ InstrResult DivCommand::run(
     return InstrResult::SUCCESS;
 };
 
+InstrResult ModCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+        storage) const
+{
+    std::cout << "[ModCommand::run] Start\n";
+    if (storage->size() < 2)
+    {
+        throw std::runtime_error(
+            "Not enough elements in the storage to use the \'mod\' "
+            "instruction!");
+    }
+    auto value1 = storage->top();
+    storage->pop();
+    auto value2 = storage->top();
+    storage->pop();
+    storage->push(std::shared_ptr<const operands::IOperand>{*value1 % *value2});
+    return InstrResult::SUCCESS;
+};
+
 InstrResult PutCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const

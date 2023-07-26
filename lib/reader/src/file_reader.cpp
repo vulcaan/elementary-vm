@@ -24,10 +24,10 @@ std::vector<std::string> FileReader::read(std::istream& in) const
         }
         else
         {
-            throw std::runtime_error("Error: Couldn't read from file.");
+            throw std::runtime_error("[ERROR] Couldn't read from file.");
         }
     }
-    throw std::runtime_error("Error: Bad input stream.");
+    throw std::runtime_error("[ERROR] Bad input stream.");
 };
 
 void FileReader::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };

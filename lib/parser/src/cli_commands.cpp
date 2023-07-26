@@ -42,6 +42,8 @@ std::unique_ptr<instructions::Parser> generateInstrParser()
                                std::make_unique<instructions::MulParser>());
     instr_parser->addSubparser(std::string("div"),
                                std::make_unique<instructions::DivParser>());
+    instr_parser->addSubparser(std::string("mod"),
+                               std::make_unique<instructions::ModParser>());
     instr_parser->addSubparser(std::string("put"),
                                std::make_unique<instructions::PutParser>());
     instr_parser->addSubparser(std::string("sub"),

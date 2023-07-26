@@ -32,7 +32,7 @@ std::unique_ptr<ICommand> Parser::parse(
         return m_commandsMap.at(args[0])->parse(
             {std::begin(args) + 1, std::end(args)});
     }
-    throw std::runtime_error("Unknown Instruction.");
+    throw std::runtime_error("[ERROR] Unknown Instruction.");
 };
 
 std::unique_ptr<ICommand> AddParser::parse(
@@ -42,7 +42,7 @@ std::unique_ptr<ICommand> AddParser::parse(
     {
         return std::make_unique<AddCommand>();
     }
-    throw std::runtime_error("Wrong Add Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Add Instruction usage.");
 };
 
 std::unique_ptr<ICommand> MulParser::parse(
@@ -52,7 +52,7 @@ std::unique_ptr<ICommand> MulParser::parse(
     {
         return std::make_unique<MulCommand>();
     }
-    throw std::runtime_error("Wrong Mul Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Mul Instruction usage.");
 };
 
 std::unique_ptr<ICommand> DivParser::parse(
@@ -62,7 +62,17 @@ std::unique_ptr<ICommand> DivParser::parse(
     {
         return std::make_unique<DivCommand>();
     }
-    throw std::runtime_error("Wrong Div Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Div Instruction usage.");
+};
+
+std::unique_ptr<ICommand> ModParser::parse(
+    const std::vector<std::string>& args) const
+{
+    if (args.size() == 0)
+    {
+        return std::make_unique<ModCommand>();
+    }
+    throw std::runtime_error("[ERROR] Wrong Mod Instruction usage.");
 };
 
 std::unique_ptr<ICommand> PutParser::parse(
@@ -72,7 +82,7 @@ std::unique_ptr<ICommand> PutParser::parse(
     {
         return std::make_unique<PutCommand>(m_op_parser->parse(args[0]));
     }
-    throw std::runtime_error("Wrong Put Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Put Instruction usage.");
 };
 
 std::unique_ptr<ICommand> AssertParser::parse(
@@ -82,7 +92,7 @@ std::unique_ptr<ICommand> AssertParser::parse(
     {
         return std::make_unique<AssertCommand>(m_op_parser->parse(args[0]));
     }
-    throw std::runtime_error("Wrong Assert Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Assert Instruction usage.");
 };
 
 std::unique_ptr<ICommand> SubParser::parse(
@@ -92,7 +102,7 @@ std::unique_ptr<ICommand> SubParser::parse(
     {
         return std::make_unique<SubCommand>();
     }
-    throw std::runtime_error("Wrong Sub Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Sub Instruction usage.");
 };
 
 std::unique_ptr<ICommand> PopParser::parse(
@@ -102,7 +112,7 @@ std::unique_ptr<ICommand> PopParser::parse(
     {
         return std::make_unique<PopCommand>();
     }
-    throw std::runtime_error("Wrong Pop Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong Pop Instruction usage.");
 };
 
 std::unique_ptr<ICommand> EndParser::parse(
@@ -112,7 +122,7 @@ std::unique_ptr<ICommand> EndParser::parse(
     {
         return std::make_unique<EndCommand>();
     }
-    throw std::runtime_error("Wrong End Instruction usage.");
+    throw std::runtime_error("[ERROR] Wrong End Instruction usage.");
 };
 
 PutParser::PutParser()

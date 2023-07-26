@@ -13,10 +13,10 @@ namespace operands
 // DataType: data type of the Class, e.g.: char, int, double, etc.
 // Category: either Integer or Float.
 template <class Class, class DataType, class Category>
-class OperandWrapper : public Category
+class _OperandWrapper : public Category
 {
 public:
-    OperandWrapper(DataType value = 0)
+    _OperandWrapper(DataType value = 0)
         : m_value{value}
     {
         m_str_value = std::to_string(m_value);
@@ -26,11 +26,13 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value = getRhsValue(rhs);
+            auto rhs_value = (rhs.getType() >= eOperandType::Float32
+                                  ? static_cast<const IFloat&>(rhs).getValue()
+                                  : static_cast<const IInteger&>(rhs).getValue());
             if ((rhs_value >= 0 && m_value > ((int)std::numeric_limits<DataType>::max() - rhs_value))
                 || (rhs_value < 0 && m_value < ((int)std::numeric_limits<DataType>::lowest() - rhs_value)))
             {
-                throw std::runtime_error("Data type overflow detected!");
+                throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
             return new Class(m_value + rhs_value);
         }
@@ -44,12 +46,14 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value = getRhsValue(rhs);
+            auto rhs_value = (rhs.getType() >= eOperandType::Float32
+                                  ? static_cast<const IFloat&>(rhs).getValue()
+                                  : static_cast<const IInteger&>(rhs).getValue());
 
             if ((rhs_value >= 0 && m_value < std::numeric_limits<DataType>::lowest() + rhs_value)
                 || (rhs_value < 0 && m_value > std::numeric_limits<DataType>::max() + rhs_value))
             {
-                throw std::runtime_error("Data type overflow detected!");
+                throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
             return new Class(m_value - rhs_value);
@@ -64,12 +68,14 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value = getRhsValue(rhs);
+            auto rhs_value = (rhs.getType() >= eOperandType::Float32
+                                  ? static_cast<const IFloat&>(rhs).getValue()
+                                  : static_cast<const IInteger&>(rhs).getValue());
 
             if ((rhs_value > 0 && m_value > std::numeric_limits<DataType>::max() / rhs_value)
                 || (rhs_value < 0 && m_value < std::numeric_limits<DataType>::lowest() / rhs_value))
             {
-                throw std::runtime_error("Data type overflow detected!");
+                throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
             return new Class(m_value * rhs_value);
@@ -84,14 +90,16 @@ public:
     {
         if (this->getType() >= rhs.getType())
         {
-            auto rhs_value = getRhsValue(rhs);
+            auto rhs_value = (rhs.getType() >= eOperandType::Float32
+                                  ? static_cast<const IFloat&>(rhs).getValue()
+                                  : static_cast<const IInteger&>(rhs).getValue());
             if (rhs_value == 0)
             {
-                throw std::runtime_error("Division by zero detected!");
+                throw std::runtime_error("[ERROR] Division by zero detected!");
             }
             if (m_value == std::numeric_limits<DataType>::lowest() && rhs_value == -1)
             {
-                throw std::runtime_error("Data type overflow detected!");
+                throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
             return new Class(m_value / rhs_value);
@@ -100,11 +108,13 @@ public:
         {
             return rhs / *this;
         }
-    }
+    };
 
     bool operator==(const IOperand& rhs) const override
     {
-        auto rhs_value = getRhsValue(rhs);
+        auto rhs_value = (rhs.getType() >= eOperandType::Float32
+                              ? static_cast<const IFloat&>(rhs).getValue()
+                              : static_cast<const IInteger&>(rhs).getValue());
         return this->m_value == rhs_value;
     };
 
@@ -118,13 +128,52 @@ public:
 protected:
     DataType m_value;
     std::string m_str_value;
+};
 
-private:
-    auto getRhsValue(const IOperand& rhs) const
+template <class Class, class DataType, class Category, class Float = void>
+class OperandWrapper;
+
+template <class Class, class DataType, class Category>
+class OperandWrapper<Class,
+                      DataType,
+                      Category,
+                      typename std::enable_if<!std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<Class, DataType, Category>
+{
+public:
+    using _OperandWrapper<Class, DataType, Category>::_OperandWrapper;
+
+    const IOperand* operator%(const IOperand&) const override
     {
-        return (rhs.getType() >= eOperandType::Float32
-                    ? static_cast<const IFloat&>(rhs).getValue()
-                    : static_cast<const IInteger&>(rhs).getValue());
+        throw std::runtime_error("[ERROR] Modulus for Float types isn't allowed!");
+    }
+};
+
+template <class Class, class DataType, class Category>
+class OperandWrapper<Class,
+                      DataType,
+                      Category,
+                      typename std::enable_if<std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<Class, DataType, Category>
+{
+public:
+    using _OperandWrapper<Class, DataType, Category>::_OperandWrapper;
+
+    const IOperand* operator%(const IOperand& rhs) const override
+    {
+        if (this->getType() >= rhs.getType() && rhs.getType() < eOperandType::Float32)
+        {
+            auto rhs_value = static_cast<const IInteger&>(rhs).getValue();
+            if (rhs_value == 0
+                || (this->m_value == std::numeric_limits<DataType>::lowest() && rhs_value == -1))
+            {
+                throw std::runtime_error("[ERROR] Data type overflow detected!");
+            }
+
+            return new Class(this->m_value % rhs_value);
+        }
+        else
+        {
+            return rhs % *this;
+        }
     }
 };
 

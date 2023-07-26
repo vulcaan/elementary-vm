@@ -45,6 +45,13 @@ public:
     virtual std::unique_ptr<ICommand> parse(
         const std::vector<std::string>& args) const override;
 };
+
+class ModParser : public IParser
+{
+public:
+    virtual std::unique_ptr<ICommand> parse(
+        const std::vector<std::string>& args) const override;
+};
 class PutParser : public IParser
 {
 public:

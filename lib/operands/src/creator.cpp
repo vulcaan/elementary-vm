@@ -43,7 +43,7 @@ std::shared_ptr<const IOperand> Creator::createInt8(
 
     if (checkOverflow<char, long long>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Int8>(num_value);
 }
@@ -54,7 +54,7 @@ std::shared_ptr<const IOperand> Creator::createInt16(
 
     if (checkOverflow<short, long long>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Int16>(num_value);
 }
@@ -65,7 +65,7 @@ std::shared_ptr<const IOperand> Creator::createInt32(
 
     if (checkOverflow<int, long long>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Int32>(num_value);
 }
@@ -76,7 +76,7 @@ std::shared_ptr<const IOperand> Creator::createInt64(
 
     if (checkOverflow<long long, long long>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Int64>(num_value);
 }
@@ -88,7 +88,7 @@ std::shared_ptr<const IOperand> Creator::createFloat32(
 
     if (checkOverflow<float, double>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Float32>(num_value);
 }
@@ -99,7 +99,7 @@ std::shared_ptr<const IOperand> Creator::createFloat64(
 
     if (checkOverflow<double, double>(num_value))
     {
-        throw std::runtime_error("Error: Data overflow!");
+        throw std::runtime_error("[ERROR] Data overflow!");
     }
     return std::make_shared<Float64>(num_value);
 }

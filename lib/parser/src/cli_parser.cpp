@@ -29,7 +29,7 @@ std::unique_ptr<ICommand> Parser::parse(
         return m_commandsMap.at(args[0])->parse(
             {std::begin(args) + 1, std::end(args)});
     }
-    throw std::runtime_error("Unknown command, use --help or -h.");
+    throw std::runtime_error("[ERROR] Unknown command, use --help or -h.");
 }
 
 std::unique_ptr<ICommand> HelpParser::parse(
@@ -39,7 +39,7 @@ std::unique_ptr<ICommand> HelpParser::parse(
     {
         return std::make_unique<HelpCommand>();
     }
-    throw std::runtime_error("Wrong Help Command usage.");
+    throw std::runtime_error("[ERROR] Wrong Help Command usage.");
 }
 
 std::unique_ptr<ICommand> InputInteractParser::parse(
@@ -49,7 +49,7 @@ std::unique_ptr<ICommand> InputInteractParser::parse(
     {
         return std::make_unique<InputInteractCommand>();
     }
-    throw std::runtime_error("Wrong Input Interact Command usage.");
+    throw std::runtime_error("[ERROR] Wrong Input Interact Command usage.");
 }
 
 std::unique_ptr<ICommand> InputFromFileParser::parse(
@@ -60,7 +60,7 @@ std::unique_ptr<ICommand> InputFromFileParser::parse(
     {
         return std::make_unique<InputFromFileCommand>(args[0]);
     }
-    throw std::runtime_error("Wrong Input From File Command usage.");
+    throw std::runtime_error("[ERROR] Wrong Input From File Command usage.");
 }
 
 }  // namespace cli
