@@ -1,5 +1,5 @@
 #pragma once
-#include "tokenizer.hpp"
+#include "instruction/itokenizer.hpp"
 
 namespace elemvm
 {

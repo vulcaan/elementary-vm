@@ -1,4 +1,4 @@
-#include "instruction_commands.hpp"
+#include "instruction/commands.hpp"
 
 #include <iostream>
 namespace elemvm

@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "instruction/iparser.hpp"
 #include "operand_parser.hpp"
-#include "parser.hpp"
 
 namespace elemvm
 {

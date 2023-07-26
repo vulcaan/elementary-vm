@@ -1,10 +1,9 @@
-#include "instruction_parser.hpp"
-
 #include <iostream>
 #include <memory>
 #include <string>
 
-#include "instruction_commands.hpp"
+#include "instruction/commands.hpp"
+#include "instruction/parser.hpp"
 
 namespace elemvm
 {

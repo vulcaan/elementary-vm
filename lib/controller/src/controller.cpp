@@ -7,29 +7,50 @@ ElementaryVM::ElementaryVM()
 {
     m_storage = std::make_shared<
         std::stack<std::shared_ptr<const operands::IOperand>>>();
-    // TODO(3): Unify objects for both short and long forms
-    //          of arguments.
-    auto cli_parser = std::make_unique<pc::Parser>();
-    cli_parser->addSubparser(std::string("-h"),
-                             std::make_unique<pc::HelpParser>());
-    cli_parser->addSubparser(std::string("--help"),
-                             std::make_unique<pc::HelpParser>());
-    cli_parser->addSubparser(std::string("-i"),
-                             std::make_unique<pc::InputInteractParser>());
-    cli_parser->addSubparser(std::string("--interactive"),
-                             std::make_unique<pc::InputInteractParser>());
-    cli_parser->addSubparser(std::string("-f"),
-                             std::make_unique<pc::InputFromFileParser>());
-    cli_parser->addSubparser(std::string("--file"),
-                             std::make_unique<pc::InputFromFileParser>());
 
-    m_cli_parser = std::move(cli_parser);
+    m_cli_parser = configureParser();
 }
+
+std::unique_ptr<parsing::cli::IParser> ElementaryVM::configureParser()
+{
+    auto cli_parser = std::make_unique<pc::Parser>();
+    bool isSubParserAdded;
+    isSubParserAdded = cli_parser->addSubparser(std::string("-h"),
+                                                pc::eCommand::HELP);
+    if (!isSubParserAdded)
+        return nullptr;
+    isSubParserAdded = cli_parser->addSubparser(std::string("--help"),
+                                                pc::eCommand::HELP);
+    if (!isSubParserAdded)
+        return nullptr;
+    isSubParserAdded = cli_parser->addSubparser(std::string("-i"),
+                                                pc::eCommand::INPUT_INTERACT);
+    if (!isSubParserAdded)
+        return nullptr;
+    isSubParserAdded = cli_parser->addSubparser(std::string("--interactive"),
+                                                pc::eCommand::INPUT_INTERACT);
+    if (!isSubParserAdded)
+        return nullptr;
+    isSubParserAdded = cli_parser->addSubparser(std::string("-f"),
+                                                pc::eCommand::INPUT_FILE);
+    if (!isSubParserAdded)
+        return nullptr;
+    isSubParserAdded = cli_parser->addSubparser(std::string("--file"),
+                                                pc::eCommand::INPUT_FILE);
+    if (!isSubParserAdded)
+        return nullptr;
+    return cli_parser;
+}
+
 int ElementaryVM::run(int argc, char* argv[])
 {
     std::cout << "[ElementaryVM::run] Start\n";
     try
     {
+        if (!m_cli_parser)
+        {
+            throw std::runtime_error("[ERROR] The CLI Parser is badly configured.");
+        }
         // TODO(2): Fix mixing return codes with exceptions.
         auto command = m_cli_parser->parse({argv + 1, argv + argc});
         auto result = command->run(m_storage);

@@ -1,7 +1,7 @@
-#include "instruction_tokenizer.hpp"
-
 #include <sstream>
 #include <string>
+
+#include "instruction/tokenizer.hpp"
 
 namespace elemvm
 {
@@ -9,16 +9,15 @@ namespace parsing
 {
 namespace instructions
 {
-
 std::vector<std::string> InstructionTokenizer::tokenize(
-    const std::string & instruction) const
+    const std::string& instruction) const
 {
     std::string line_without_comments = remove_comment(std::string(instruction), '#');
     std::vector<std::string> tokens = split(line_without_comments, ' ');
     return tokens;
 }
-std::vector<std::string> InstructionTokenizer::split(const std::string & line,
-                                                          char delimiter) const
+std::vector<std::string> InstructionTokenizer::split(const std::string& line,
+                                                     char delimiter) const
 {
     std::vector<std::string> tokens;
     std::string token;
@@ -32,8 +31,8 @@ std::vector<std::string> InstructionTokenizer::split(const std::string & line,
     return tokens;
 }
 
-std::string InstructionTokenizer::remove_comment(const std::string & line,
-                                                      char symbol) const
+std::string InstructionTokenizer::remove_comment(const std::string& line,
+                                                 char symbol) const
 {
     if (line == "##")
         return line;

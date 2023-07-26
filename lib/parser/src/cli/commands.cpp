@@ -1,8 +1,8 @@
-#include "cli_commands.hpp"
+#include "cli/commands.hpp"
 
 #include <stdexcept>
 
-#include "instruction_parser.hpp"
+#include "instruction/parser.hpp"
 namespace elemvm
 {
 namespace parsing

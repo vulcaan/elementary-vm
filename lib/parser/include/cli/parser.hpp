@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "parser.hpp"
+#include "cli/iparser.hpp"
 
 namespace elemvm
 {
@@ -12,17 +12,21 @@ namespace parsing
 {
 namespace cli
 {
-
 class Parser : public IParser
 {
 public:
-    bool addSubparser(const std::string & command,
-                      std::unique_ptr<IParser> parser) noexcept;
+    bool addSubparser(const std::string& command,
+                      eCommand command_type) noexcept;
     virtual std::unique_ptr<ICommand> parse(
         const std::vector<std::string>& args) const override;
+
 private:
-    std::unordered_map<std::string, std::unique_ptr<IParser>>
-        m_commandsMap;
+    std::unique_ptr<IParser> createSubParser(const eCommand & command_type) const;
+
+    std::unordered_map<eCommand, std::unique_ptr<IParser>>
+        m_commandToParser;
+    std::unordered_map<std::string, eCommand>
+        m_stringToCommand;
 };
 
 class HelpParser : public IParser

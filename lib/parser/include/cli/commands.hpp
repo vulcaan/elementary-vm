@@ -4,12 +4,12 @@
 #include <string>
 #include <unordered_map>
 
-#include "command.hpp"
+#include "cli/icommand.hpp"
 #include "console_reader.hpp"
 #include "file_reader.hpp"
-#include "instruction_tokenizer.hpp"
+#include "instruction/iparser.hpp"
+#include "instruction/tokenizer.hpp"
 #include "ioperand.hpp"
-#include "parser.hpp"
 
 namespace elemvm
 {
