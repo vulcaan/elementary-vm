@@ -9,10 +9,9 @@ namespace elemvm
 {
 namespace operands
 {
-// Class: actual interface implementation, e.g.: Int8, Int32, Float32, etc.
-// DataType: data type of the Class, e.g.: char, int, double, etc.
-// Category: either Integer or Float.
-template <class Class, class DataType, class Category>
+template <eOperandType eNumType, class DataType, class Category, class Float = void>
+class Operand;
+template <eOperandType eNumType, class DataType, class Category>
 class _OperandWrapper : public Category
 {
 public:
@@ -20,6 +19,16 @@ public:
         : m_value{value}
     {
         m_str_value = std::to_string(m_value);
+    }
+
+    eOperandType getType() const override
+    {
+        return eNumType;
+    }
+
+    int getPrecision() const override
+    {
+        return static_cast<int>(getType());
     }
 
     const IOperand* operator+(const IOperand& rhs) const override
@@ -34,7 +43,7 @@ public:
             {
                 throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
-            return new Class(m_value + rhs_value);
+            return new Operand<eNumType, DataType, Category>(m_value + rhs_value);
         }
         else
         {
@@ -56,7 +65,7 @@ public:
                 throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
-            return new Class(m_value - rhs_value);
+            return new Operand<eNumType, DataType, Category>(m_value - rhs_value);
         }
         else
         {
@@ -78,7 +87,7 @@ public:
                 throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
-            return new Class(m_value * rhs_value);
+            return new Operand<eNumType, DataType, Category>(m_value * rhs_value);
         }
         else
         {
@@ -102,7 +111,7 @@ public:
                 throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
-            return new Class(m_value / rhs_value);
+            return new Operand<eNumType, DataType, Category>(m_value / rhs_value);
         }
         else
         {
@@ -130,32 +139,33 @@ protected:
     std::string m_str_value;
 };
 
-template <class Class, class DataType, class Category, class Float = void>
-class OperandWrapper;
-
-template <class Class, class DataType, class Category>
-class OperandWrapper<Class,
-                      DataType,
-                      Category,
-                      typename std::enable_if<!std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<Class, DataType, Category>
+template <eOperandType eNumType, class DataType, class Category>
+class Operand<eNumType,
+              DataType,
+              Category,
+              typename std::enable_if<!std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<eNumType, DataType, Category>
 {
 public:
-    using _OperandWrapper<Class, DataType, Category>::_OperandWrapper;
+    using _OperandWrapper<eNumType, DataType, Category>::_OperandWrapper;
 
     const IOperand* operator%(const IOperand&) const override
     {
         throw std::runtime_error("[ERROR] Modulus for Float types isn't allowed!");
     }
+    double getValue() const override
+    {
+        return this->m_value;
+    }
 };
 
-template <class Class, class DataType, class Category>
-class OperandWrapper<Class,
-                      DataType,
-                      Category,
-                      typename std::enable_if<std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<Class, DataType, Category>
+template <eOperandType eNumType, class DataType, class Category>
+class Operand<eNumType,
+              DataType,
+              Category,
+              typename std::enable_if<std::is_same<IInteger, Category>::value>::type> : public _OperandWrapper<eNumType, DataType, Category>
 {
 public:
-    using _OperandWrapper<Class, DataType, Category>::_OperandWrapper;
+    using _OperandWrapper<eNumType, DataType, Category>::_OperandWrapper;
 
     const IOperand* operator%(const IOperand& rhs) const override
     {
@@ -168,12 +178,17 @@ public:
                 throw std::runtime_error("[ERROR] Data type overflow detected!");
             }
 
-            return new Class(this->m_value % rhs_value);
+            return new Operand<eNumType, DataType, Category>(this->m_value % rhs_value);
         }
         else
         {
             return rhs % *this;
         }
+    }
+
+    int64_t getValue() const override
+    {
+        return this->m_value;
     }
 };
 

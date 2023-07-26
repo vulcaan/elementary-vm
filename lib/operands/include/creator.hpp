@@ -13,22 +13,22 @@ class Creator
 {
 public:
     Creator();
-    std::shared_ptr<const IOperand> createOperand(
+    const IOperand* createOperand(
         eOperandType type, const std::string& value) const;
 
 private:
-    std::vector<std::function<std::shared_ptr<const IOperand>(const std::string&)>>
+    std::vector<std::function<const IOperand*(const std::string&)>>
         m_creators;
 
-    std::shared_ptr<const IOperand> createInt8(const std::string& value) const;
-    std::shared_ptr<const IOperand> createInt16(const std::string& value) const;
-    std::shared_ptr<const IOperand> createInt32(const std::string& value) const;
-    std::shared_ptr<const IOperand> createInt64(const std::string& value) const;
-    //  std::shared_ptr<const IOperand> createInt128(
+    const IOperand* createInt8(const std::string& value) const;
+    const IOperand* createInt16(const std::string& value) const;
+    const IOperand* createInt32(const std::string& value) const;
+    const IOperand* createInt64(const std::string& value) const;
+    //  const IOperand * createInt128(
     //     const std::string& value) const;
-    std::shared_ptr<const IOperand> createFloat32(
+    const IOperand* createFloat32(
         const std::string& value) const;
-    std::shared_ptr<const IOperand> createFloat64(
+    const IOperand* createFloat64(
         const std::string& value) const;
     template <class RequiredType, class ActualType>
     bool checkOverflow(ActualType num_value) const

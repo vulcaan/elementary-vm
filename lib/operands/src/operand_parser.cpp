@@ -24,7 +24,7 @@ std::shared_ptr<const IOperand> OperandParser::parse(const std::string& arg)
     std::smatch match;
     if (std::regex_match(arg, match, pattern))
     {
-        return m_op_creator->createOperand(m_typesMap[match[1]], match[2]);
+        return std::shared_ptr<const IOperand>(m_op_creator->createOperand(m_typesMap[match[1]], match[2]));
     }
     else
     {
