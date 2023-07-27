@@ -18,7 +18,7 @@ However, Elementary VM’s assembly language has a limited type system, which is
       ◦ float32(z): Creates a 32-bit float with value z.
       ◦ float64(z): Creates a 64-bit float with value z.
       ◦ int64(n): Creates a 64-bit integer with value n.
-      ◦ int128(n): Creates a 128-bit integer with value n.
+      ◦ TODO(3): int128(n): Creates a 128-bit integer with value n.
       
 <b>pop</b>:
 
