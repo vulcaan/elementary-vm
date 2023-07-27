@@ -14,7 +14,6 @@ void HelpCommand::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
 bool HelpCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>) const
 {
-    // TODO(1): Fix unused argument
     if (m_out)
     {
         m_out << "Elementary VM "
@@ -32,7 +31,6 @@ bool InputFromFileCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
-    std::cout << "[InputFromFileCommand::run] Start\n";
     // TODO(1): Fix workaround with unused iostream argument.
     //       Now used only path variable that is passed via FileReader Ctor.
     //       The fix might be like the following:
@@ -43,6 +41,7 @@ bool InputFromFileCommand::run(
     //       Also this method may be unified with InteractiveInput.
     auto lines = m_reader->read(std::cin);
     std::uint16_t lineCounter = 0;
+    instructions::eInstrResult instr_result;
     for (const auto& line : lines)
     {
         lineCounter++;
@@ -53,7 +52,7 @@ bool InputFromFileCommand::run(
             {
                 continue;
             }
-            auto instr_result = command->run(storage);
+            instr_result = command->run(storage);
             // TODO(2): Fix mixing return codes with exceptions.
             if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
@@ -67,11 +66,15 @@ bool InputFromFileCommand::run(
             return false;
         }
     }
+    if (instr_result != instructions::eInstrResult::END)
+    {
+        throw std::runtime_error("[ERROR] End instruction wasn't passed.");
+    }
     return true;
 };
 
 InputFromFileCommand::InputFromFileCommand(std::string path)
-    // TODO(1): refer to other TODO with the same number
+    // TODO(1): Fix workaround with unused iostream argument.
     : m_reader(std::make_unique<reading::FileReader>(path))
     , m_path(path)
     , m_instr_parser(std::make_unique<instructions::Parser>()){};
@@ -106,9 +109,9 @@ bool InputInteractCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
-    std::cout << "[InputInteractCommand::run] Start\n";
     auto lines = m_reader->read(std::cin);
     std::uint16_t lineCounter = 0;
+    instructions::eInstrResult instr_result;
     for (const auto& line : lines)
     {
         lineCounter++;
@@ -117,7 +120,7 @@ bool InputInteractCommand::run(
             auto command = m_instr_parser->parse(line);
             if (command == nullptr)
                 continue;
-            auto instr_result = command->run(storage);
+            instr_result = command->run(storage);
             // TODO(2): Fix mixing return codes with exceptions.
             if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
@@ -131,7 +134,10 @@ bool InputInteractCommand::run(
             return false;
         }
     }
-
+    if (instr_result != instructions::eInstrResult::END)
+    {
+        throw std::runtime_error("[ERROR] End instruction wasn't passed.");
+    }
     return true;
 };
 }  // namespace cli

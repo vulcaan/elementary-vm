@@ -44,7 +44,7 @@ std::string Parser::remove_comment(const std::string& line,
 std::unique_ptr<const ICommand> Parser::parse(
     const std::string& line) const
 {
-    std::cout << "[InstructionsParser::parse] Start.\n";
+    std::cout << "[InstructionsParser::parse] Parsing instruction...\n";
     std::regex pattern(
         R"([\s]*([a-z]+)([\s]+[a-z]+[0-9]+\((?:[-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\))?[\s]*)");
     auto line_without_comments = remove_comment(line);

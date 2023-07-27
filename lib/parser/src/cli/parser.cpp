@@ -83,7 +83,6 @@ std::unique_ptr<ICommand> InputInteractParser::parse(
 std::unique_ptr<ICommand> InputFromFileParser::parse(
     const std::vector<std::string>& args) const
 {
-    std::cout << "InputFromFileParser::parse] Start\n";
     if (args.size() == 1)
     {
         return std::make_unique<InputFromFileCommand>(args[0]);

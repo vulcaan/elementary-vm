@@ -8,7 +8,7 @@ namespace reading
 {
 std::vector<std::string> FileReader::read(std::istream& in) const
 {
-    // TODO(1): Fix unused argument
+    // TODO(1): Fix workaround with unused iostream argument.
     if (in)
     {
         std::ifstream file(m_path);

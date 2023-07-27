@@ -44,7 +44,6 @@ std::unique_ptr<parsing::cli::IParser> ElementaryVM::configureParser()
 
 int ElementaryVM::run(int argc, char* argv[])
 {
-    std::cout << "[ElementaryVM::run] Start\n";
     try
     {
         if (!m_cli_parser)
