@@ -81,6 +81,15 @@ public:
             storage) const override;
 };
 
+class TraceCommand : public ITrivial
+{
+public:
+    TraceCommand() = default;
+    virtual eInstrResult run(
+        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+            storage) const override;
+};
+
 class AssertCommand : public IComplex
 {
 public:

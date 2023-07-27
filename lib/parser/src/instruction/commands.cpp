@@ -184,6 +184,20 @@ eInstrResult EndCommand::run(
     return eInstrResult::END;
 };
 
+eInstrResult TraceCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const
+{
+    std::cout << "[TraceCommand::run] Tracing storage...\n";
+    auto storage_copy = *storage;
+    while (!storage_copy.empty())
+    {
+        std::cout << storage_copy.top()->toString() << std::endl;
+        storage_copy.pop();
+    };
+    std::cout << "[TraceCommand::run] Done.\n";
+    return eInstrResult::SUCCESS;
+};
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm

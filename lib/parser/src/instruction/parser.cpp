@@ -26,6 +26,7 @@ Parser::Parser()
     m_instructionsMap["end"] = eInstruction::END;
     m_instructionsMap["assert"] = eInstruction::ASSERT;
     m_instructionsMap["print"] = eInstruction::PRINT;
+    m_instructionsMap["trace"] = eInstruction::TRACE;
 }
 
 void Parser::setCreator(std::shared_ptr<InstructionCreator> creator)

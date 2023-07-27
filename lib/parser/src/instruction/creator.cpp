@@ -29,13 +29,15 @@ InstructionCreator::InstructionCreator()
         [this](const std::string& value) { return CreateInstruction<AssertCommand>()(value); });
     m_creators.push_back(
         [this](const std::string& value) { return CreateInstruction<PrintCommand>()(value); });
+    m_creators.push_back(
+        [this](const std::string& value) { return CreateInstruction<TraceCommand>()(value); });
 }
 
 const ICommand* InstructionCreator::create(eInstruction type, const std::string& value)
 {
     return m_creators[static_cast<int>(type)](value);
 }
+
 }  // namespace instructions
 }  // namespace parsing
-
 }  // namespace elemvm
