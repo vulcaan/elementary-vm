@@ -31,13 +31,25 @@ private:
     };
 
     template <class Command, class Type = void>
-    class createInstr;
+    class CreateInstruction;
 
     template <class Command>
-    class createInstr<Command,
+    class CreateInstruction<Command,
                       typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:
+        CreateInstruction()
+            : m_operandCreator({new operands::Creator()})
+            , m_operandTypesMap{
+                  {"int8", operands::eOperandType::Int8},
+                  {"int16", operands::eOperandType::Int16},
+                  {"int32", operands::eOperandType::Int32},
+                  {"int64", operands::eOperandType::Int64},
+                  {"float32", operands::eOperandType::Float32},
+                  {"float64", operands::eOperandType::Float64},
+              }
+        {
+        }
         const ICommand* operator()(const std::string& value) const
         {
             if (!value.empty())
@@ -47,13 +59,6 @@ private:
                 std::smatch match;
                 if (std::regex_match(value, match, pattern))
                 {
-                    std::unordered_map<std::string, operands::eOperandType> m_operandTypesMap;
-                    m_operandTypesMap["int8"] = operands::eOperandType::Int8;
-                    m_operandTypesMap["int16"] = operands::eOperandType::Int16;
-                    m_operandTypesMap["int32"] = operands::eOperandType::Int32;
-                    m_operandTypesMap["int64"] = operands::eOperandType::Int64;
-                    m_operandTypesMap["float32"] = operands::eOperandType::Float32;
-                    m_operandTypesMap["float64"] = operands::eOperandType::Float64;
                     if (m_operandTypesMap.find(match[1]) != m_operandTypesMap.end())
                     {
                         return new Command(std::shared_ptr<const operands::IOperand>(m_operandCreator->createOperand(m_operandTypesMap.at(match[1]), match[2])));
@@ -64,11 +69,12 @@ private:
         }
 
     private:
-        std::unique_ptr<operands::Creator> m_operandCreator{new operands::Creator()};
+        std::unique_ptr<operands::Creator> m_operandCreator;
+        std::unordered_map<std::string, operands::eOperandType> m_operandTypesMap;
     };
 
     template <class Command>
-    class createInstr<Command,
+    class CreateInstruction<Command,
                       typename std::enable_if<!std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:

@@ -10,23 +10,23 @@ namespace instructions
 InstructionCreator::InstructionCreator()
 {
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<PutCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<PutCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<PopCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<PopCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<AddCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<AddCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<SubCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<SubCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<MulCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<MulCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<DivCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<DivCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<ModCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<ModCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<EndCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<EndCommand>()(value); });
     m_creators.push_back(
-        [this](const std::string& value) { return createInstr<AssertCommand>()(value); });
+        [this](const std::string& value) { return CreateInstruction<AssertCommand>()(value); });
 }
 const ICommand* InstructionCreator::create(eInstruction type, const std::string& value)
 {
