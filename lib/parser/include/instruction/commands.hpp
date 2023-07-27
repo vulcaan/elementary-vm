@@ -1,6 +1,7 @@
 #pragma once
 
-#include "instruction/icommand.hpp"
+#include "instruction/itrivial.hpp"
+#include "instruction/icomplex.hpp"
 
 namespace elemvm
 {
@@ -8,91 +9,83 @@ namespace parsing
 {
 namespace instructions
 {
-class AddCommand : public ICommand
+class AddCommand : public ITrivial
 {
 public:
     AddCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class MulCommand : public ICommand
+class MulCommand : public ITrivial
 {
 public:
     MulCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class DivCommand : public ICommand
+class DivCommand : public ITrivial
 {
 public:
     DivCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class ModCommand : public ICommand
+class ModCommand : public ITrivial
 {
 public:
     ModCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class PutCommand : public ICommand
+class PutCommand : public IComplex
 {
 public:
-    PutCommand(std::shared_ptr<const operands::IOperand> value)
-        : m_value(value){};
-    virtual InstrResult run(
+    using IComplex::IComplex;
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
-
-private:
-    std::shared_ptr<const operands::IOperand> m_value;
 };
 
-class PopCommand : public ICommand
+class PopCommand : public ITrivial
 {
 public:
     PopCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class SubCommand : public ICommand
+class SubCommand : public ITrivial
 {
 public:
     SubCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };
 
-class AssertCommand : public ICommand
+class AssertCommand : public IComplex
 {
 public:
-    AssertCommand(std::shared_ptr<const operands::IOperand> value)
-        : m_value(value){};
-    virtual InstrResult run(
+    using IComplex::IComplex;
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
-
-private:
-    std::shared_ptr<const operands::IOperand> m_value;
 };
 
-class EndCommand : public ICommand
+class EndCommand : public ITrivial
 {
 public:
     EndCommand() = default;
-    virtual InstrResult run(
+    virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const override;
 };

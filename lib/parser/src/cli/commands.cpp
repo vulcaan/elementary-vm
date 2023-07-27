@@ -12,14 +12,9 @@ namespace cli
 void HelpCommand::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
 
 bool HelpCommand::run(
-    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-        storage) const
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>) const
 {
     // TODO(1): Fix unused argument
-    if (!storage->empty())
-    {
-        std::cout << "Corrupted data: storage isn't empty during --help";
-    }
     if (m_out)
     {
         m_out << "Elementary VM "
@@ -31,30 +26,6 @@ bool HelpCommand::run(
         return true;
     }
     return false;
-};
-
-std::unique_ptr<instructions::Parser> generateInstrParser()
-{
-    auto instr_parser = std::make_unique<instructions::Parser>();
-    instr_parser->addSubparser(std::string("add"),
-                               std::make_unique<instructions::AddParser>());
-    instr_parser->addSubparser(std::string("mul"),
-                               std::make_unique<instructions::MulParser>());
-    instr_parser->addSubparser(std::string("div"),
-                               std::make_unique<instructions::DivParser>());
-    instr_parser->addSubparser(std::string("mod"),
-                               std::make_unique<instructions::ModParser>());
-    instr_parser->addSubparser(std::string("put"),
-                               std::make_unique<instructions::PutParser>());
-    instr_parser->addSubparser(std::string("sub"),
-                               std::make_unique<instructions::SubParser>());
-    instr_parser->addSubparser(std::string("assert"),
-                               std::make_unique<instructions::AssertParser>());
-    instr_parser->addSubparser(std::string("pop"),
-                               std::make_unique<instructions::PopParser>());
-    instr_parser->addSubparser(std::string("end"),
-                               std::make_unique<instructions::EndParser>());
-    return instr_parser;
 };
 
 bool InputFromFileCommand::run(
@@ -71,25 +42,23 @@ bool InputFromFileCommand::run(
     //
     //       Also this method may be unified with InteractiveInput.
     auto lines = m_reader->read(std::cin);
-    std::uint16_t lineCounter = 1;
+    std::uint16_t lineCounter = 0;
     for (const auto& line : lines)
     {
+        lineCounter++;
         try
         {
-            auto unparsed = m_tokenizer->tokenize(line);
-            if (unparsed.empty())
+            auto command = m_instr_parser->parse(line);
+            if (command == nullptr)
             {
-                lineCounter++;
                 continue;
             }
-            auto command = m_instr_parser->parse(unparsed);
             auto instr_result = command->run(storage);
             // TODO(2): Fix mixing return codes with exceptions.
-            if (instr_result == instructions::InstrResult::ERROR)
+            if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
-            if (instr_result == instructions::InstrResult::END)
+            if (instr_result == instructions::eInstrResult::END)
                 break;
-            lineCounter++;
         }
         catch (const std::exception& ex)
         {
@@ -105,10 +74,7 @@ InputFromFileCommand::InputFromFileCommand(std::string path)
     // TODO(1): refer to other TODO with the same number
     : m_reader(std::make_unique<reading::FileReader>(path))
     , m_path(path)
-    , m_tokenizer(std::make_unique<instructions::InstructionTokenizer>())
-{
-    m_instr_parser = generateInstrParser();
-};
+    , m_instr_parser(std::make_unique<instructions::Parser>()){};
 
 void InputFromFileCommand::setReader(std::unique_ptr<reading::IReader> reader)
 {
@@ -132,43 +98,31 @@ void InputInteractCommand::setInstrParser(
     m_instr_parser = std::move(instrParser);
 }
 
-void InputInteractCommand::setTokenizer(
-    std::unique_ptr<instructions::InstructionTokenizer> tokenizer)
-{
-    m_tokenizer = std::move(tokenizer);
-};
-
 InputInteractCommand::InputInteractCommand()
     : m_reader(std::make_unique<reading::ConsoleReader>())
-    , m_tokenizer(std::make_unique<instructions::InstructionTokenizer>())
-{
-    m_instr_parser = generateInstrParser();
-};
+    , m_instr_parser(std::make_unique<instructions::Parser>()){};
+
 bool InputInteractCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
     std::cout << "[InputInteractCommand::run] Start\n";
     auto lines = m_reader->read(std::cin);
-    std::uint16_t lineCounter = 1;
+    std::uint16_t lineCounter = 0;
     for (const auto& line : lines)
     {
+        lineCounter++;
         try
         {
-            auto unparsed = m_tokenizer->tokenize(line);
-            if (unparsed.empty())
-            {
-                lineCounter++;
+            auto command = m_instr_parser->parse(line);
+            if (command == nullptr)
                 continue;
-            }
-            auto command = m_instr_parser->parse(unparsed);
             auto instr_result = command->run(storage);
             // TODO(2): Fix mixing return codes with exceptions.
-            if (instr_result == instructions::InstrResult::ERROR)
+            if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
-            if (instr_result == instructions::InstrResult::END)
+            if (instr_result == instructions::eInstrResult::END)
                 break;
-            lineCounter++;
         }
         catch (const std::exception& ex)
         {

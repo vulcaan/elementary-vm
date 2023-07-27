@@ -7,7 +7,7 @@ namespace parsing
 {
 namespace instructions
 {
-InstrResult AddCommand::run(
+eInstrResult AddCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -23,10 +23,10 @@ InstrResult AddCommand::run(
     auto value2 = storage->top();
     storage->pop();
     storage->push(std::shared_ptr<const operands::IOperand>{*value1 + *value2});
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult MulCommand::run(
+eInstrResult MulCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -42,10 +42,10 @@ InstrResult MulCommand::run(
     auto value2 = storage->top();
     storage->pop();
     storage->push(std::shared_ptr<const operands::IOperand>{*value1 * *value2});
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult DivCommand::run(
+eInstrResult DivCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -61,10 +61,10 @@ InstrResult DivCommand::run(
     auto value2 = storage->top();
     storage->pop();
     storage->push(std::shared_ptr<const operands::IOperand>{*value1 / *value2});
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult ModCommand::run(
+eInstrResult ModCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -80,27 +80,27 @@ InstrResult ModCommand::run(
     auto value2 = storage->top();
     storage->pop();
     storage->push(std::shared_ptr<const operands::IOperand>{*value1 % *value2});
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult PutCommand::run(
+eInstrResult PutCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
     std::cout << "[PutCommand::run] Start.\n";
-    std::cout << "[PutCommand::run] Put " << m_value->toString()
+    std::cout << "[PutCommand::run] Put " << m_operand->toString()
               << " to storage\n";
-    storage->push(std::shared_ptr<const operands::IOperand>{m_value});
-    return InstrResult::SUCCESS;
+    storage->push(std::shared_ptr<const operands::IOperand>{m_operand});
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult AssertCommand::run(
+eInstrResult AssertCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
     std::cout << "[AssertCommand::run] Start.\n";
     std::cout << "[AssertCommand::run] Assert top value equals \""
-              << m_value->toString() << "\"\n";
+              << m_operand->toString() << "\"\n";
     if (storage->size() < 1)
     {
         throw std::runtime_error(
@@ -108,17 +108,17 @@ InstrResult AssertCommand::run(
             "instruction!");
     }
     auto top_value = storage->top();
-    if (*top_value != *m_value)
+    if (*top_value != *m_operand)
     {
         std::cerr << "storage top value: " << top_value->toString() << std::endl
-                  << "instr value: " << m_value->toString() << std::endl;
+                  << "instr value: " << m_operand->toString() << std::endl;
         throw std::runtime_error(
             "The value on the top of the storage doesn't equal passed value.");
     }
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult PopCommand::run(
+eInstrResult PopCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -129,10 +129,10 @@ InstrResult PopCommand::run(
             "Not enough elements in the storage to use the \'pop\' "
             "instruction!");
     }
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult SubCommand::run(
+eInstrResult SubCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -148,10 +148,10 @@ InstrResult SubCommand::run(
     auto value2 = storage->top();
     storage->pop();
     storage->push(std::shared_ptr<const operands::IOperand>{*value1 - *value2});
-    return InstrResult::SUCCESS;
+    return eInstrResult::SUCCESS;
 };
 
-InstrResult EndCommand::run(
+eInstrResult EndCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
 {
@@ -164,7 +164,7 @@ InstrResult EndCommand::run(
                      "isn't empty."
                   << std::endl;
     }
-    return InstrResult::END;
+    return eInstrResult::END;
 };
 
 }  // namespace instructions

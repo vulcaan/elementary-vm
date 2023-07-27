@@ -2,10 +2,10 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
 
+#include "instruction/creator.hpp"
 #include "instruction/iparser.hpp"
-#include "operand_parser.hpp"
+#include "ioperand.hpp"
 
 namespace elemvm
 {
@@ -16,87 +16,17 @@ namespace instructions
 class Parser : public IParser
 {
 public:
-    bool addSubparser(const std::string& command,
-                      std::unique_ptr<IParser> parser) noexcept;
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
+    Parser();
+    virtual std::unique_ptr<const ICommand> parse(
+        const std::string& line) const override;
+    void setCreator(std::shared_ptr<InstructionCreator> creator);
 
 private:
-    std::unordered_map<std::string, std::unique_ptr<IParser>> m_commandsMap;
-};
+    std::string remove_comment(const std::string& line,
+                               char symbol = '#') const;
 
-class AddParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-
-class MulParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-
-class DivParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-
-class ModParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-class PutParser : public IParser
-{
-public:
-    PutParser();
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-    void setOperandsParser(
-        std::shared_ptr<operands::parsing::IParser> op_parser);
-
-private:
-    std::shared_ptr<operands::parsing::IParser> m_op_parser;
-};
-
-class SubParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-
-class PopParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-};
-
-class AssertParser : public IParser
-{
-public:
-    AssertParser();
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
-    void setOperandsParser(
-        std::shared_ptr<operands::parsing::IParser> op_parser);
-
-private:
-    std::shared_ptr<operands::parsing::IParser> m_op_parser;
-};
-
-class EndParser : public IParser
-{
-public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const override;
+    std::shared_ptr<InstructionCreator> m_instrCreator;
+    std::unordered_map<std::string, eInstruction> m_instructionsMap;
 };
 
 }  // namespace instructions

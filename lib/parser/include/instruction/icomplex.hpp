@@ -2,38 +2,24 @@
 #include <memory>
 #include <stack>
 
-#include "ioperand.hpp"
+#include "instruction/icommand.hpp"
 namespace elemvm
 {
 namespace parsing
 {
 namespace instructions
 {
-enum class eInstrResult : int
-{
-    SUCCESS = 0,
-    END,
-    ERROR
-};
-enum class eInstruction : int
-{
-    PUT = 0,
-    POP,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    MOD,
-    END,
-    ASSERT,
-};
-class ICommand
+class IComplex : public ICommand
 {
 public:
+    IComplex(std::shared_ptr<const operands::IOperand> value)
+        : m_operand(value){};
     virtual eInstrResult run(
         std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
             storage) const = 0;
-    virtual ~ICommand(){};
+
+protected:
+    std::shared_ptr<const operands::IOperand> m_operand;
 };
 
 }  // namespace instructions

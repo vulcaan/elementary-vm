@@ -13,8 +13,8 @@ namespace instructions
 class IParser
 {
 public:
-    virtual std::unique_ptr<ICommand> parse(
-        const std::vector<std::string>& args) const = 0;
+    virtual std::unique_ptr<const ICommand> parse(
+        const std::string& line) const = 0;
     virtual ~IParser(){};
 };
 }  // namespace instructions
