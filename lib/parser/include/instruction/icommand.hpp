@@ -26,6 +26,7 @@ enum class eInstruction : int
     MOD,
     END,
     ASSERT,
+    PRINT,
 };
 class ICommand
 {

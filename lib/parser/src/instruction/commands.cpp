@@ -120,6 +120,28 @@ eInstrResult AssertCommand::run(
     return eInstrResult::SUCCESS;
 };
 
+eInstrResult PrintCommand::run(
+    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
+        storage) const
+{
+    std::cout << "[PrintCommand::run] Printing top value...\n";
+    if (storage->size() < 1)
+    {
+        throw std::runtime_error(
+            "[ERROR] Not enough elements in the storage to use the \'print\' "
+            "instruction!");
+    }
+    auto top_value = storage->top();
+    if (top_value->getType() != operands::eOperandType::Int8)
+    {
+        throw std::runtime_error(
+            "[ERROR] The value on the top of the storage isn't Int8.");
+    }
+    std::cout << static_cast<char>(std::stoi(top_value->toString())) << std::endl;
+    std::cout << "[PrintCommand::run] Done.\n";
+    return eInstrResult::SUCCESS;
+};
+
 eInstrResult PopCommand::run(
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
         storage) const
