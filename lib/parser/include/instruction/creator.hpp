@@ -1,3 +1,6 @@
+#ifndef ELEMVM_INSTRUCTION_CREATOR_HPP
+#define ELEMVM_INSTRUCTION_CREATOR_HPP
+
 #include <functional>
 #include <regex>
 #include <unordered_map>
@@ -35,7 +38,7 @@ private:
 
     template <class Command>
     class CreateInstruction<Command,
-                      typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type> : public ICreator
+                            typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:
         CreateInstruction()
@@ -75,7 +78,7 @@ private:
 
     template <class Command>
     class CreateInstruction<Command,
-                      typename std::enable_if<!std::is_base_of<IComplex, Command>::value>::type> : public ICreator
+                            typename std::enable_if<!std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:
         const ICommand* operator()(const std::string& value) const
@@ -90,5 +93,5 @@ private:
 };
 }  // namespace instructions
 }  // namespace parsing
-
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_CREATOR_HPP

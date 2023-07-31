@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ELEMVM_OPERAND_IOPERAND_HPP
+#define ELEMVM_OPERAND_IOPERAND_HPP
 #include <memory>
 #include <string>
 
@@ -33,3 +34,4 @@ public:
 };
 }  // namespace operands
 }  // namespace elemvm
+#endif // ELEMVM_OPERAND_IOPERAND_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_INSTRUCTION_ICOMMAND_HPP
+#define ELEMVM_INSTRUCTION_ICOMMAND_HPP
+
 #include <memory>
 #include <stack>
 
@@ -41,3 +43,4 @@ public:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_ICOMMAND_HPP

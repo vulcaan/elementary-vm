@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ELEMVM_OPERAND_CREATOR_HPP
+#define ELEMVM_OPERAND_CREATOR_HPP
 #include <functional>
 #include <limits>
 #include <memory>
@@ -39,3 +40,4 @@ private:
 };
 }  // namespace operands
 }  // namespace elemvm
+#endif // ELEMVM_OPERAND_CREATOR_HPP

@@ -1,7 +1,8 @@
-#pragma once
+#ifndef ELEMVM_INSTRUCTION_COMMANDS_HPP
+#define ELEMVM_INSTRUCTION_COMMANDS_HPP
 
-#include "instruction/itrivial.hpp"
 #include "instruction/icomplex.hpp"
+#include "instruction/itrivial.hpp"
 
 namespace elemvm
 {
@@ -111,3 +112,4 @@ public:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_COMMANDS_HPP

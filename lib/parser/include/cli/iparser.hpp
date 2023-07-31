@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_CLI_IPARSER_HPP
+#define ELEMVM_CLI_IPARSER_HPP
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -26,3 +28,4 @@ public:
 }  // namespace cli
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_CLI_IPARSER_HPP

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ELEMVM_CONTROLLER_HPP
+#define ELEMVM_CONTROLLER_HPP
 #include <iostream>
 
 #include "cli/parser.hpp"
@@ -24,3 +25,4 @@ private:
     std::unique_ptr<parsing::cli::IParser> configureParser();
 };
 }  // namespace elemvm
+#endif  // ELEMVM_CONTROLLER_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_INSTRUCTION_ICOMPLEX_HPP
+#define ELEMVM_INSTRUCTION_ICOMPLEX_HPP
+
 #include <memory>
 #include <stack>
 
@@ -25,3 +27,4 @@ protected:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_ICOMPLEX_HPP

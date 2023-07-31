@@ -50,7 +50,6 @@ int ElementaryVM::run(int argc, char* argv[])
         {
             throw std::runtime_error("[ERROR] The CLI Parser is badly configured.");
         }
-        // TODO(2): Fix mixing return codes with exceptions.
         auto command = m_cli_parser->parse({argv + 1, argv + argc});
         auto result = command->run(m_storage);
         return result ? 0 : 1;

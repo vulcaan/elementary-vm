@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_CLI_PARSER_HPP
+#define ELEMVM_CLI_PARSER_HPP
+
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -21,7 +23,7 @@ public:
         const std::vector<std::string>& args) const override;
 
 private:
-    std::unique_ptr<IParser> createSubParser(const eCommand & command_type) const;
+    std::unique_ptr<IParser> createSubParser(const eCommand& command_type) const;
 
     std::unordered_map<eCommand, std::unique_ptr<IParser>>
         m_commandToParser;
@@ -53,3 +55,4 @@ public:
 }  // namespace cli
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_CLI_PARSER_HPP

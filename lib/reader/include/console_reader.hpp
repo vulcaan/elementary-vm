@@ -1,9 +1,11 @@
-#pragma once
+#ifndef ELEMVM_READER_CONSOLE_HPP
+#define ELEMVM_READER_CONSOLE_HPP
+
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "reader.hpp"
+#include "ireader.hpp"
 
 namespace elemvm
 {
@@ -18,7 +20,7 @@ public:
 
     virtual std::vector<std::string> read(std::istream& in) const override;
     void setOut(std::ostream& out);
-    void setStop(const std::string & stop);
+    void setStop(const std::string& stop);
 
 private:
     std::ostream& m_out;
@@ -27,3 +29,4 @@ private:
 
 }  // namespace reading
 }  // namespace elemvm
+#endif  // ELEMVM_READER_CONSOLE_HPP

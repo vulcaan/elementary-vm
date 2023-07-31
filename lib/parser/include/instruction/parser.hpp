@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_INSTRUCTION_PARSER_HPP
+#define ELEMVM_INSTRUCTION_PARSER_HPP
+
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -32,3 +34,4 @@ private:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_PARSER_HPP

@@ -1,12 +1,13 @@
-#pragma once
+#ifndef ELEMVM_READER_IREADER_HPP
+#define ELEMVM_READER_IREADER_HPP
+
+#include <istream>
 #include <string>
 #include <vector>
-#include <istream>
 namespace elemvm
 {
 namespace reading
 {
-
 class IReader
 {
 public:
@@ -16,3 +17,4 @@ public:
 
 }  // namespace reading
 }  // namespace elemvm
+#endif  // ELEMVM_READER_IREADER_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_CLI_ICOMMAND_HPP
+#define ELEMVM_CLI_ICOMMAND_HPP
+
 #include <memory>
 #include <stack>
 
@@ -20,3 +22,4 @@ public:
 }  // namespace cli
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_CLI_ICOMMAND_HPP

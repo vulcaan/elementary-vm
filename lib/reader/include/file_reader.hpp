@@ -1,10 +1,11 @@
-#pragma once
+#ifndef ELEMVM_READER_FILE_HPP
+#define ELEMVM_READER_FILE_HPP
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "reader.hpp"
+#include "ireader.hpp"
 
 namespace elemvm
 {
@@ -27,3 +28,4 @@ private:
 
 }  // namespace reading
 }  // namespace elemvm
+#endif  // ELEMVM_READER_FILE_HPP

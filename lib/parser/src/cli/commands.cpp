@@ -53,7 +53,6 @@ bool InputFromFileCommand::run(
                 continue;
             }
             instr_result = command->run(storage);
-            // TODO(2): Fix mixing return codes with exceptions.
             if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
             if (instr_result == instructions::eInstrResult::END)
@@ -121,7 +120,6 @@ bool InputInteractCommand::run(
             if (command == nullptr)
                 continue;
             instr_result = command->run(storage);
-            // TODO(2): Fix mixing return codes with exceptions.
             if (instr_result == instructions::eInstrResult::ERROR)
                 return false;
             if (instr_result == instructions::eInstrResult::END)

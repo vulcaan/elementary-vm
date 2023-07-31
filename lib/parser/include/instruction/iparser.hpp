@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ELEMVM_INSTRUCTION_IPARSER_HPP
+#define ELEMVM_INSTRUCTION_IPARSER_HPP
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,3 +22,4 @@ public:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
+#endif  // ELEMVM_INSTRUCTION_IPARSER_HPP
