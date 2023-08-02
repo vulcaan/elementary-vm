@@ -42,7 +42,7 @@ private:
     {
     public:
         CreateInstruction()
-            : m_operandCreator({new operands::Creator()})
+            : m_operandCreator(new operands::Creator())
             , m_operandTypesMap{
                   {"int8", operands::eOperandType::Int8},
                   {"int16", operands::eOperandType::Int16},
