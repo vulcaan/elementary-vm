@@ -30,8 +30,15 @@ const IOperand* Creator::createOperand(eOperandType type,
 
 const IOperand* Creator::createInt8(const std::string& value) const
 {
-    auto num_value = std::stoll(value);
-
+    long long num_value;
+    try
+    {
+        num_value = std::stoll(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stoll: Data overflow!");
+    }
     if (checkOverflow<char>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
@@ -41,8 +48,15 @@ const IOperand* Creator::createInt8(const std::string& value) const
 
 const IOperand* Creator::createInt16(const std::string& value) const
 {
-    auto num_value = std::stoll(value);
-
+    long long num_value;
+    try
+    {
+        num_value = std::stoll(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stoll: Data overflow!");
+    }
     if (checkOverflow<short>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
@@ -52,8 +66,15 @@ const IOperand* Creator::createInt16(const std::string& value) const
 
 const IOperand* Creator::createInt32(const std::string& value) const
 {
-    auto num_value = std::stoll(value);
-
+    long long num_value;
+    try
+    {
+        num_value = std::stoll(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stoll: Data overflow!");
+    }
     if (checkOverflow<int>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
@@ -63,8 +84,15 @@ const IOperand* Creator::createInt32(const std::string& value) const
 
 const IOperand* Creator::createInt64(const std::string& value) const
 {
-    auto num_value = std::stoll(value);
-
+    long long num_value;
+    try
+    {
+        num_value = std::stoll(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stoll: Data overflow!");
+    }
     if (checkOverflow<long long>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
@@ -74,8 +102,15 @@ const IOperand* Creator::createInt64(const std::string& value) const
 
 const IOperand* Creator::createFloat32(const std::string& value) const
 {
-    auto num_value = std::stod(value);
-
+    double num_value;
+    try
+    {
+        num_value = std::stod(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stod: Data overflow!");
+    }
     if (checkOverflow<float>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
@@ -85,8 +120,15 @@ const IOperand* Creator::createFloat32(const std::string& value) const
 
 const IOperand* Creator::createFloat64(const std::string& value) const
 {
-    auto num_value = std::stod(value);
-
+    double num_value;
+    try
+    {
+        num_value = std::stod(value);
+    }
+    catch (const std::out_of_range&)
+    {
+        throw std::runtime_error("[ERROR] stod: Data overflow!");
+    }
     if (checkOverflow<double>(num_value))
     {
         throw std::runtime_error("[ERROR] Data overflow!");
