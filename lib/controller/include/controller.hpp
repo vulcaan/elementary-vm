@@ -10,10 +10,13 @@ namespace operands
 {
 class IOperand;
 }
-namespace parsing::cli
+namespace parsing
+{
+namespace cli
 {
 class IParser;
-}
+}  // namespace cli
+}  // namespace parsing
 class ElementaryVM
 {
 public:

@@ -25,11 +25,11 @@ private:
     // const IOperand* createInt128(const std::string& value) const;
     const IOperand* createFloat32(const std::string& value) const;
     const IOperand* createFloat64(const std::string& value) const;
-    template <class RequiredType, class ActualType = void>
+    template <class RequiredType, class ActualType>
     bool checkOverflow(ActualType num_value) const;
 };
 
-template <class RequiredType, class ActualType = void>
+template <class RequiredType, class ActualType>
 bool Creator::checkOverflow(ActualType num_value) const
 {
     return num_value > std::numeric_limits<RequiredType>::max()
