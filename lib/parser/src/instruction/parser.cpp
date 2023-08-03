@@ -46,13 +46,23 @@ std::string Parser::remove_comment(const std::string& line,
     return result;
 }
 
+bool Parser::isConsistOf(const std::string& line, char symbol) const
+{
+    for (const auto& el : line)
+    {
+        if (el != symbol)
+            return false;
+    }
+    return true;
+}
+
 std::unique_ptr<const ICommand> Parser::parse(
     const std::string& line) const
 {
     std::cout << "[InstructionsParser::parse] Parsing instruction...\n";
-    std::regex pattern(R"([\s]*([a-z]+)([\s]+[a-z]+[0-9]+\((?:[-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\))?[\s]*)");
+    std::regex pattern(R"([\s]*([a-z]+)(?:[\s]+([a-z]+[0-9]+\((?:[-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\)))?[\s]*)");
     auto line_without_comments = remove_comment(line);
-    if (line_without_comments.empty())
+    if (line_without_comments.empty() || isConsistOf(line_without_comments, ' '))
     {
         return nullptr;
     }

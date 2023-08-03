@@ -25,6 +25,7 @@ public:
 private:
     std::string remove_comment(const std::string& line,
                                char symbol = '#') const;
+    bool isConsistOf(const std::string & line, char symbol) const;
 
     std::shared_ptr<InstructionCreator> m_instrCreator;
     std::unordered_map<std::string, eInstruction> m_instructionsMap;
