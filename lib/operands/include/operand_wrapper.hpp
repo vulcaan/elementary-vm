@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
@@ -61,6 +62,30 @@ public:
     int64_t getValue() const override;
 };
 
+template <class DataType>
+std::unique_ptr<const IOperand> upCast(eOperandType type, DataType value)
+{
+    using ptr = std::unique_ptr<const IOperand>;
+    switch (type)
+    {
+    case eOperandType::Int8:
+        return ptr{new Operand<eOperandType::Int8, char, IInteger>(value)};
+    case eOperandType::Int16:
+        return ptr{new Operand<eOperandType::Int16, short, IInteger>(value)};
+    case eOperandType::Int32:
+        return ptr{new Operand<eOperandType::Int32, int, IInteger>(value)};
+    case eOperandType::Int64:
+        return ptr{new Operand<eOperandType::Int64, long long, IInteger>(value)};
+    case eOperandType::Float32:
+        return ptr{new Operand<eOperandType::Float32, float, IFloat>(value)};
+    case eOperandType::Float64:
+        return ptr{new Operand<eOperandType::Float64, double, IFloat>(value)};
+
+    default:
+        throw std::logic_error("Unknown operand type passed while upcasting!");
+    };
+}
+
 template <eOperandType eNumType, class DataType, class Category>
 _OperandWrapper<eNumType, DataType, Category>::_OperandWrapper(DataType value)
     : m_value{value}
@@ -109,18 +134,16 @@ const IOperand* _OperandWrapper<eNumType, DataType, Category>::operator-(const I
         auto rhs_value = (rhs.getType() >= eOperandType::Float32
                               ? static_cast<const IFloat&>(rhs).getValue()
                               : static_cast<const IInteger&>(rhs).getValue());
-
         if ((rhs_value >= 0 && m_value < std::numeric_limits<DataType>::lowest() + rhs_value)
             || (rhs_value < 0 && m_value > std::numeric_limits<DataType>::max() + rhs_value))
         {
             throw std::runtime_error("[ERROR] Data type overflow detected!");
         }
-
         return new Operand<eNumType, DataType, Category>(m_value - rhs_value);
     }
     else
     {
-        return rhs - *this;
+        return *upCast(rhs.getType(), m_value) - rhs;
     }
 }
 
@@ -168,7 +191,7 @@ const IOperand* _OperandWrapper<eNumType, DataType, Category>::operator/(const I
     }
     else
     {
-        return rhs / *this;
+        return *upCast(rhs.getType(), m_value) / rhs;
     }
 };
 
@@ -230,7 +253,7 @@ const IOperand* Operand<eNumType,
     }
     else
     {
-        return rhs % *this;
+        return *upCast(rhs.getType(), this->m_value) % rhs;
     }
 }
 
