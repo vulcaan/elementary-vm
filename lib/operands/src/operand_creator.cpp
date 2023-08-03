@@ -9,23 +9,26 @@ namespace elemvm
 {
 namespace operands
 {
-Creator::Creator()
-{
-    m_creators = {
-        [this](const std::string& value) { return this->createInt8(value); },
-        [this](const std::string& value) { return this->createInt16(value); },
-        [this](const std::string& value) { return this->createInt32(value); },
-        [this](const std::string& value) { return this->createInt64(value); },
-        // [this](const std::string& value) { return this->createInt128(value); },
-        [this](const std::string& value) { return this->createFloat32(value); },
-        [this](const std::string& value) { return this->createFloat64(value); },
-    };
-}
-
 const IOperand* Creator::createOperand(eOperandType type,
                                        const std::string& value) const
 {
-    return m_creators[static_cast<int>(type)](value);
+    switch (type)
+    {
+    case eOperandType::Int8:
+        return createInt8(value);
+    case eOperandType::Int16:
+        return createInt16(value);
+    case eOperandType::Int32:
+        return createInt32(value);
+    case eOperandType::Int64:
+        return createInt64(value);
+    case eOperandType::Float32:
+        return createFloat32(value);
+    case eOperandType::Float64:
+        return createFloat64(value);
+    default:
+        throw std::logic_error("Unknown operand type passed!");
+    };
 }
 
 const IOperand* Creator::createInt8(const std::string& value) const

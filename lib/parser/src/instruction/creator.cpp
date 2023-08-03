@@ -7,26 +7,36 @@ namespace parsing
 {
 namespace instructions
 {
-InstructionCreator::InstructionCreator()
-{
-    m_creators = {
-        [](const std::string& value) { return CreateInstruction<PutCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<PopCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<AddCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<SubCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<MulCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<DivCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<ModCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<EndCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<AssertCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<PrintCommand>()(value); },
-        [](const std::string& value) { return CreateInstruction<TraceCommand>()(value); },
-    };
-}
 
 const ICommand* InstructionCreator::create(eInstruction type, const std::string& value)
 {
-    return m_creators[static_cast<int>(type)](value);
+    switch (type)
+    {
+    case eInstruction::PUT:
+        return CreateInstruction<PutCommand>()(value);
+    case eInstruction::POP:
+        return CreateInstruction<PopCommand>()(value);
+    case eInstruction::ADD:
+        return CreateInstruction<AddCommand>()(value);
+    case eInstruction::SUB:
+        return CreateInstruction<SubCommand>()(value);
+    case eInstruction::MUL:
+        return CreateInstruction<MulCommand>()(value);
+    case eInstruction::DIV:
+        return CreateInstruction<DivCommand>()(value);
+    case eInstruction::MOD:
+        return CreateInstruction<ModCommand>()(value);
+    case eInstruction::END:
+        return CreateInstruction<EndCommand>()(value);
+    case eInstruction::ASSERT:
+        return CreateInstruction<AssertCommand>()(value);
+    case eInstruction::PRINT:
+        return CreateInstruction<PrintCommand>()(value);
+    case eInstruction::TRACE:
+        return CreateInstruction<TraceCommand>()(value);
+    default:
+        throw std::logic_error("Unknown instruction type passed!");
+    };
 }
 
 }  // namespace instructions

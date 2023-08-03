@@ -14,7 +14,6 @@ enum class eOperandType;
 class Creator
 {
 public:
-    Creator();
     const IOperand* createOperand(eOperandType type,
                                   const std::string& value) const;
 
@@ -28,8 +27,6 @@ private:
     const IOperand* createFloat64(const std::string& value) const;
     template <class RequiredType, class ActualType = void>
     bool checkOverflow(ActualType num_value) const;
-
-    std::vector<std::function<const IOperand*(const std::string&)>> m_creators;
 };
 
 template <class RequiredType, class ActualType = void>

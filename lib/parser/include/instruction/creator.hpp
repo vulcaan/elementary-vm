@@ -21,12 +21,9 @@ namespace instructions
 class InstructionCreator
 {
 public:
-    InstructionCreator();
     const ICommand* create(eInstruction type, const std::string& value);
 
 private:
-    std::vector<std::function<const ICommand*(const std::string&)>> m_creators;
-
     class ICreator
     {
     public:
