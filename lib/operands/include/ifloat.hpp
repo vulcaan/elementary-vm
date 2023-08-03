@@ -10,7 +10,7 @@ class IFloat : public IOperand
 {
 public:
     virtual double getValue() const = 0;
-    virtual ~IFloat(){};
+    virtual ~IFloat() = default;
 };
 }  // namespace operands
 }  // namespace elemvm

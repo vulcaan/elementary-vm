@@ -10,7 +10,7 @@ class IInteger : public IOperand
 {
 public:
     virtual int64_t getValue() const = 0;
-    virtual ~IInteger(){};
+    virtual ~IInteger() = default;
 };
 }  // namespace operands
 }  // namespace elemvm
