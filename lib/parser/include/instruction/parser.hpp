@@ -1,5 +1,5 @@
-#ifndef ELEMVM_PARSER_INSTRUCTION_PARSER_HPP
-#define ELEMVM_PARSER_INSTRUCTION_PARSER_HPP
+#ifndef ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_PARSER_HPP_
+#define ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_PARSER_HPP_
 
 #include <memory>
 #include <string>
@@ -34,4 +34,4 @@ private:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_PARSER_INSTRUCTION_PARSER_HPP
+#endif  // ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_PARSER_HPP_

@@ -1,5 +1,5 @@
-#ifndef ELEMVM_PARSER_CLI_COMMANDS_HPP
-#define ELEMVM_PARSER_CLI_COMMANDS_HPP
+#ifndef ELEMVM_LIB_PARSER_CLI_INCLUDE_COMMANDS_HPP_
+#define ELEMVM_LIB_PARSER_CLI_INCLUDE_COMMANDS_HPP_
 
 #include <iostream>
 #include <memory>
@@ -68,4 +68,4 @@ private:
 }  // namespace cli
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_PARSER_CLI_COMMANDS_HPP
+#endif  // ELEMVM_LIB_PARSER_CLI_INCLUDE_COMMANDS_HPP_

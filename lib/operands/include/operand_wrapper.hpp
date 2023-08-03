@@ -1,5 +1,5 @@
-#ifndef ELEMVM_LIB_OPERANDS_WRAPPER_HPP
-#define ELEMVM_LIB_OPERANDS_WRAPPER_HPP
+#ifndef ELEMVM_LIB_OPERANDS_INCLUDE_WRAPPER_HPP_
+#define ELEMVM_LIB_OPERANDS_INCLUDE_WRAPPER_HPP_
 
 #include <iostream>
 #include <limits>
@@ -245,4 +245,4 @@ int64_t Operand<eNumType,
 
 }  // namespace operands
 }  // namespace elemvm
-#endif  // ELEMVM_LIB_OPERANDS_WRAPPER_HPP
+#endif  // ELEMVM_LIB_OPERANDS_INCLUDE_WRAPPER_HPP_

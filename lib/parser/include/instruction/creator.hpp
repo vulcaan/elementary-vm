@@ -1,5 +1,5 @@
-#ifndef ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP
-#define ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP
+#ifndef ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_CREATOR_HPP_
+#define ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_CREATOR_HPP_
 
 #include <functional>
 #include <regex>
@@ -105,4 +105,4 @@ const ICommand* InstructionCreator::CreateInstruction<Command,
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP
+#endif  // ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_CREATOR_HPP_

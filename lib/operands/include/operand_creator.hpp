@@ -1,5 +1,5 @@
-#ifndef ELEMVM_LIB_OPERANDS_CREATOR_HPP
-#define ELEMVM_LIB_OPERANDS_CREATOR_HPP
+#ifndef ELEMVM_LIB_OPERANDS_INCLUDE_CREATOR_HPP_
+#define ELEMVM_LIB_OPERANDS_INCLUDE_CREATOR_HPP_
 #include <functional>
 #include <limits>
 #include <memory>
@@ -37,4 +37,4 @@ bool Creator::checkOverflow(ActualType num_value) const
 };
 }  // namespace operands
 }  // namespace elemvm
-#endif  // ELEMVM_LIB_OPERANDS_CREATOR_HPP
+#endif  // ELEMVM_LIB_OPERANDS_INCLUDE_CREATOR_HPP_

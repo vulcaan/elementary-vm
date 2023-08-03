@@ -1,5 +1,5 @@
-#ifndef ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP
-#define ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP
+#ifndef ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_ICOMPLEX_HPP_
+#define ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_ICOMPLEX_HPP_
 
 #include <memory>
 #include <stack>
@@ -25,4 +25,4 @@ protected:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP
+#endif  // ELEMVM_LIB_PARSER_INCLUDE_INSTRUCTION_ICOMPLEX_HPP_

@@ -1,5 +1,5 @@
-#ifndef ELEMVM_READER_FILE_READER_HPP
-#define ELEMVM_READER_FILE_READER_HPP
+#ifndef ELEMVM_LIB_READER_INCLUDE_FILE_READER_HPP_
+#define ELEMVM_LIB_READER_INCLUDE_FILE_READER_HPP_
 
 #include <iostream>
 #include <string>
@@ -26,4 +26,4 @@ private:
 
 }  // namespace reading
 }  // namespace elemvm
-#endif  // ELEMVM_READER_FILE_READER_HPP
+#endif  // ELEMVM_LIB_READER_INCLUDE_FILE_READER_HPP_

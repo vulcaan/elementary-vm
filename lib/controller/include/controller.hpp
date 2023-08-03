@@ -1,5 +1,5 @@
-#ifndef ELEMVM_LIB_CONTROLLER_CONTROLLER_HPP
-#define ELEMVM_LIB_CONTROLLER_CONTROLLER_HPP
+#ifndef ELEMVM_LIB_CONTROLLER_INCLUDE_CONTROLLER_HPP_
+#define ELEMVM_LIB_CONTROLLER_INCLUDE_CONTROLLER_HPP_
 #include <iostream>
 #include <memory>
 #include <stack>
@@ -31,4 +31,4 @@ private:
     std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> m_storage;
 };
 }  // namespace elemvm
-#endif  // ELEMVM_LIB_CONTROLLER_CONTROLLER_HPP
+#endif  // ELEMVM_LIB_CONTROLLER_INCLUDE_CONTROLLER_HPP_

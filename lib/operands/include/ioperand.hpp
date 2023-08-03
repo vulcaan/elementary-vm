@@ -1,5 +1,5 @@
-#ifndef ELEMVM_LIB_OPERANDS_IOPERAND_HPP
-#define ELEMVM_LIB_OPERANDS_IOPERAND_HPP
+#ifndef ELEMVM_LIB_OPERANDS_INCLUDE_IOPERAND_HPP_
+#define ELEMVM_LIB_OPERANDS_INCLUDE_IOPERAND_HPP_
 #include <string>
 
 namespace elemvm
@@ -33,4 +33,4 @@ public:
 };
 }  // namespace operands
 }  // namespace elemvm
-#endif  // ELEMVM_LIB_OPERANDS_IOPERAND_HPP
+#endif  // ELEMVM_LIB_OPERANDS_INCLUDE_IOPERAND_HPP_
