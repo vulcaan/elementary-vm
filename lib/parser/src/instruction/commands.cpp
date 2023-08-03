@@ -153,6 +153,7 @@ eInstrResult PopCommand::run(
             "Not enough elements in the storage to use the \'pop\' "
             "instruction!");
     }
+    storage->pop();
     std::cout << "[PopCommand::run] Done.\n";
     return eInstrResult::SUCCESS;
 };
