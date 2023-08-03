@@ -1,40 +1,55 @@
 #include "controller.hpp"
 
+#include "cli/icommand.hpp"
+#include "cli/parser.hpp"
+#include "ioperand.hpp"
+
 namespace elemvm
 {
+namespace pc = parsing::cli;
 ElementaryVM::ElementaryVM()
     : m_out(std::cout)
 {
-    m_storage = std::make_shared<
-        std::stack<std::shared_ptr<const operands::IOperand>>>();
-
+    m_storage = std::make_shared<std::stack<std::shared_ptr<const operands::IOperand>>>();
     m_cli_parser = configureParser();
 }
 
-std::unique_ptr<parsing::cli::IParser> ElementaryVM::configureParser()
+ElementaryVM::ElementaryVM(std::unique_ptr<parsing::cli::IParser> parser)
+    : m_cli_parser(std::move(parser))
+    , m_out(std::cout){};
+
+ElementaryVM::~ElementaryVM() = default;
+
+std::unique_ptr<pc::IParser> ElementaryVM::configureParser()
 {
     auto cli_parser = std::make_unique<pc::Parser>();
     bool isSubParserAdded;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("-h"),
                                                 pc::eCommand::HELP);
     if (!isSubParserAdded)
         return nullptr;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("--help"),
                                                 pc::eCommand::HELP);
     if (!isSubParserAdded)
         return nullptr;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("-i"),
                                                 pc::eCommand::INPUT_INTERACT);
     if (!isSubParserAdded)
         return nullptr;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("--interactive"),
                                                 pc::eCommand::INPUT_INTERACT);
     if (!isSubParserAdded)
         return nullptr;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("-f"),
                                                 pc::eCommand::INPUT_FILE);
     if (!isSubParserAdded)
         return nullptr;
+
     isSubParserAdded = cli_parser->addSubparser(std::string("--file"),
                                                 pc::eCommand::INPUT_FILE);
     if (!isSubParserAdded)

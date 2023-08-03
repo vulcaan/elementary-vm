@@ -1,31 +1,38 @@
-#ifndef ELEMVM_CLI_COMMANDS_HPP
-#define ELEMVM_CLI_COMMANDS_HPP
+#ifndef ELEMVM_PARSER_CLI_COMMANDS_HPP
+#define ELEMVM_PARSER_CLI_COMMANDS_HPP
 
+#include <iostream>
 #include <memory>
+#include <stack>
 #include <string>
 #include <unordered_map>
 
 #include "cli/icommand.hpp"
-#include "console_reader.hpp"
-#include "file_reader.hpp"
-#include "instruction/iparser.hpp"
-#include "ioperand.hpp"
 
 namespace elemvm
 {
+namespace operands
+{
+class IOperand;
+}
+namespace reading
+{
+class IReader;
+}
 namespace parsing
 {
+namespace instructions
+{
+class IParser;
+}
 namespace cli
 {
 class HelpCommand : public ICommand
 {
 public:
-    HelpCommand()
-        : m_out(std::cout){};
+    HelpCommand();
     void setOut(std::ostream& out);
-    virtual bool run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const override;
+    virtual bool run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const override;
 
 private:
     std::ostream& m_out;
@@ -35,9 +42,7 @@ class InputFromFileCommand : public ICommand
 {
 public:
     InputFromFileCommand(std::string path);
-    virtual bool run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const override;
+    virtual bool run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const override;
     void setReader(std::unique_ptr<reading::IReader> reader);
     void setInstrParser(std::unique_ptr<instructions::IParser> instrParser);
 
@@ -51,10 +56,7 @@ class InputInteractCommand : public ICommand
 {
 public:
     InputInteractCommand();
-    virtual bool run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const override;
-
+    virtual bool run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const override;
     void setReader(std::unique_ptr<reading::IReader> reader);
     void setInstrParser(std::unique_ptr<instructions::IParser> instrParser);
 
@@ -66,4 +68,4 @@ private:
 }  // namespace cli
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_CLI_COMMANDS_HPP
+#endif  // ELEMVM_PARSER_CLI_COMMANDS_HPP

@@ -1,9 +1,12 @@
 #include "cli/parser.hpp"
 
-#include <iostream>
-#include <memory>
+#include <stdexcept>
 
 #include "cli/commands.hpp"
+#include "cli/icommand.hpp"
+#include "cli/iparser.hpp"
+#include "instruction/iparser.hpp"
+#include "ireader.hpp"
 
 namespace elemvm
 {
@@ -49,19 +52,18 @@ std::unique_ptr<IParser> Parser::createSubParser(const eCommand& command_type) c
     return nullptr;
 }
 
-std::unique_ptr<ICommand> Parser::parse(
-    const std::vector<std::string>& args) const
+Parser::~Parser() = default;
+
+std::unique_ptr<ICommand> Parser::parse(const std::vector<std::string>& args) const
 {
     if (!args.empty() && m_stringToCommand.find(args[0]) != m_stringToCommand.end())
     {
-        return m_commandToParser.at(m_stringToCommand.at(args[0]))->parse(
-            {std::begin(args) + 1, std::end(args)});
+        return m_commandToParser.at(m_stringToCommand.at(args[0]))->parse({std::begin(args) + 1, std::end(args)});
     }
     throw std::runtime_error("[ERROR] Unknown command, use --help or -h.");
 }
 
-std::unique_ptr<ICommand> HelpParser::parse(
-    const std::vector<std::string>& args) const
+std::unique_ptr<ICommand> HelpParser::parse(const std::vector<std::string>& args) const
 {
     if (args.size() == 0)
     {
@@ -70,8 +72,7 @@ std::unique_ptr<ICommand> HelpParser::parse(
     throw std::runtime_error("[ERROR] Wrong Help Command usage.");
 }
 
-std::unique_ptr<ICommand> InputInteractParser::parse(
-    const std::vector<std::string>& args) const
+std::unique_ptr<ICommand> InputInteractParser::parse(const std::vector<std::string>& args) const
 {
     if (args.size() == 0)
     {
@@ -80,8 +81,7 @@ std::unique_ptr<ICommand> InputInteractParser::parse(
     throw std::runtime_error("[ERROR] Wrong Input Interact Command usage.");
 }
 
-std::unique_ptr<ICommand> InputFromFileParser::parse(
-    const std::vector<std::string>& args) const
+std::unique_ptr<ICommand> InputFromFileParser::parse(const std::vector<std::string>& args) const
 {
     if (args.size() == 1)
     {

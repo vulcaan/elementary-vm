@@ -1,5 +1,5 @@
-#ifndef ELEMVM_READER_CONSOLE_HPP
-#define ELEMVM_READER_CONSOLE_HPP
+#ifndef ELEMVM_READER_CONSOLE_READER_HPP
+#define ELEMVM_READER_CONSOLE_READER_HPP
 
 #include <iostream>
 #include <string>
@@ -14,13 +14,11 @@ namespace reading
 class ConsoleReader : public IReader
 {
 public:
-    ConsoleReader()
-        : m_out(std::cout)
-        , m_stop("##"){};
-
+    ConsoleReader();
     virtual std::vector<std::string> read(std::istream& in) const override;
     void setOut(std::ostream& out);
     void setStop(const std::string& stop);
+    ~ConsoleReader();
 
 private:
     std::ostream& m_out;
@@ -29,4 +27,4 @@ private:
 
 }  // namespace reading
 }  // namespace elemvm
-#endif  // ELEMVM_READER_CONSOLE_HPP
+#endif  // ELEMVM_READER_CONSOLE_READER_HPP

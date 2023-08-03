@@ -4,6 +4,10 @@ namespace elemvm
 {
 namespace reading
 {
+ConsoleReader::ConsoleReader()
+    : m_out(std::cout)
+    , m_stop("##"){};
+
 std::vector<std::string> ConsoleReader::read(std::istream& in) const
 {
     std::string input;
@@ -20,8 +24,10 @@ std::vector<std::string> ConsoleReader::read(std::istream& in) const
     return output;
 };
 
+ConsoleReader::~ConsoleReader() = default;
+
 void ConsoleReader::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
-void ConsoleReader::setStop(const std::string & stop) { m_stop = stop; };
+void ConsoleReader::setStop(const std::string& stop) { m_stop = stop; };
 
 }  // namespace reading
 }  // namespace elemvm

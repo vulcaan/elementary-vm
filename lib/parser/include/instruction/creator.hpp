@@ -1,5 +1,5 @@
-#ifndef ELEMVM_INSTRUCTION_CREATOR_HPP
-#define ELEMVM_INSTRUCTION_CREATOR_HPP
+#ifndef ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP
+#define ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP
 
 #include <functional>
 #include <regex>
@@ -9,6 +9,7 @@
 #include "instruction/icommand.hpp"
 #include "instruction/icomplex.hpp"
 #include "instruction/itrivial.hpp"
+#include "ioperand.hpp"
 #include "operand_creator.hpp"
 
 namespace elemvm
@@ -24,8 +25,7 @@ public:
     const ICommand* create(eInstruction type, const std::string& value);
 
 private:
-    std::vector<std::function<const ICommand*(const std::string&)>>
-        m_creators;
+    std::vector<std::function<const ICommand*(const std::string&)>> m_creators;
 
     class ICreator
     {
@@ -41,35 +41,8 @@ private:
                             typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:
-        CreateInstruction()
-            : m_operandCreator(new operands::Creator())
-            , m_operandTypesMap{
-                  {"int8", operands::eOperandType::Int8},
-                  {"int16", operands::eOperandType::Int16},
-                  {"int32", operands::eOperandType::Int32},
-                  {"int64", operands::eOperandType::Int64},
-                  {"float32", operands::eOperandType::Float32},
-                  {"float64", operands::eOperandType::Float64},
-              }
-        {
-        }
-        const ICommand* operator()(const std::string& value) const
-        {
-            if (!value.empty())
-            {
-                std::regex pattern(
-                    R"([\s]*([a-z0-9]+)\(([-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\)[\s]*)");
-                std::smatch match;
-                if (std::regex_match(value, match, pattern))
-                {
-                    if (m_operandTypesMap.find(match[1]) != m_operandTypesMap.end())
-                    {
-                        return new Command(std::shared_ptr<const operands::IOperand>(m_operandCreator->createOperand(m_operandTypesMap.at(match[1]), match[2])));
-                    }
-                }
-            }
-            throw std::runtime_error("[ERROR] Wrong Instruction Usage.");
-        }
+        CreateInstruction();
+        const ICommand* operator()(const std::string& value) const;
 
     private:
         std::unique_ptr<operands::Creator> m_operandCreator;
@@ -81,17 +54,58 @@ private:
                             typename std::enable_if<!std::is_base_of<IComplex, Command>::value>::type> : public ICreator
     {
     public:
-        const ICommand* operator()(const std::string& value) const
-        {
-            if (value.empty())
-            {
-                return new Command();
-            }
-            throw std::runtime_error("[ERROR] Wrong Instruction Usage.");
-        }
+        const ICommand* operator()(const std::string& value) const;
     };
 };
+
+template <class Command>
+InstructionCreator::CreateInstruction<Command,
+                                      typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type>::CreateInstruction()
+
+{
+    m_operandCreator = std::make_unique<operands::Creator>();
+    m_operandTypesMap = {
+        {"int8", operands::eOperandType::Int8},
+        {"int16", operands::eOperandType::Int16},
+        {"int32", operands::eOperandType::Int32},
+        {"int64", operands::eOperandType::Int64},
+        {"float32", operands::eOperandType::Float32},
+        {"float64", operands::eOperandType::Float64},
+    };
+}
+
+template <class Command>
+const ICommand* InstructionCreator::CreateInstruction<Command,
+                                                      typename std::enable_if<std::is_base_of<IComplex, Command>::value>::type>::operator()(const std::string& value) const
+{
+    if (!value.empty())
+    {
+        std::regex pattern(
+            R"([\s]*([a-z0-9]+)\(([-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\)[\s]*)");
+        std::smatch match;
+        if (std::regex_match(value, match, pattern))
+        {
+            if (m_operandTypesMap.find(match[1]) != m_operandTypesMap.end())
+            {
+                return new Command(std::shared_ptr<const operands::IOperand>(m_operandCreator->createOperand(m_operandTypesMap.at(match[1]), match[2])));
+            }
+        }
+    }
+    throw std::runtime_error("[ERROR] Wrong Instruction Usage.");
+}
+
+template <class Command>
+const ICommand* InstructionCreator::CreateInstruction<Command,
+                                                      typename std::enable_if<!std::is_base_of<IComplex, Command>::value>::type>::operator()(const std::string& value) const
+{
+    if (value.empty())
+    {
+        return new Command();
+    }
+    throw std::runtime_error("[ERROR] Wrong Instruction Usage.");
+}
+
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_INSTRUCTION_CREATOR_HPP
+#endif  // ELEMVM_PARSER_INSTRUCTION_CREATOR_HPP

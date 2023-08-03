@@ -1,5 +1,5 @@
-#ifndef ELEMVM_INSTRUCTION_PARSER_HPP
-#define ELEMVM_INSTRUCTION_PARSER_HPP
+#ifndef ELEMVM_PARSER_INSTRUCTION_PARSER_HPP
+#define ELEMVM_PARSER_INSTRUCTION_PARSER_HPP
 
 #include <memory>
 #include <string>
@@ -19,8 +19,7 @@ class Parser : public IParser
 {
 public:
     Parser();
-    virtual std::unique_ptr<const ICommand> parse(
-        const std::string& line) const override;
+    virtual std::unique_ptr<const ICommand> parse(const std::string& line) const override;
     void setCreator(std::shared_ptr<InstructionCreator> creator);
 
 private:
@@ -34,4 +33,4 @@ private:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_INSTRUCTION_PARSER_HPP
+#endif  // ELEMVM_PARSER_INSTRUCTION_PARSER_HPP

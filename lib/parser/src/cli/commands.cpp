@@ -2,7 +2,12 @@
 
 #include <stdexcept>
 
+#include "console_reader.hpp"
+#include "file_reader.hpp"
+#include "instruction/iparser.hpp"
 #include "instruction/parser.hpp"
+#include "ioperand.hpp"
+
 namespace elemvm
 {
 namespace parsing
@@ -11,13 +16,14 @@ namespace cli
 {
 void HelpCommand::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
 
-bool HelpCommand::run(
-    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>) const
+HelpCommand::HelpCommand()
+    : m_out(std::cout){};
+
+bool HelpCommand::run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>) const
 {
     if (m_out)
     {
-        m_out << "Elementary VM "
-              << "[options]" << std::endl
+        m_out << "Elementary VM [options]" << std::endl
               << "Options:" << std::endl
               << "-h                    Print this help" << std::endl
               << "-i                    Get commands from a console (## to end)" << std::endl
@@ -27,9 +33,7 @@ bool HelpCommand::run(
     return false;
 };
 
-bool InputFromFileCommand::run(
-    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-        storage) const
+bool InputFromFileCommand::run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const
 {
     // TODO(1): Fix workaround with unused iostream argument.
     //       Now used only path variable that is passed via FileReader Ctor.
@@ -83,8 +87,7 @@ void InputFromFileCommand::setReader(std::unique_ptr<reading::IReader> reader)
     m_reader = std::move(reader);
 };
 
-void InputFromFileCommand::setInstrParser(
-    std::unique_ptr<instructions::IParser> instrParser)
+void InputFromFileCommand::setInstrParser(std::unique_ptr<instructions::IParser> instrParser)
 {
     m_instr_parser = std::move(instrParser);
 };
@@ -94,8 +97,7 @@ void InputInteractCommand::setReader(std::unique_ptr<reading::IReader> reader)
     m_reader = std::move(reader);
 };
 
-void InputInteractCommand::setInstrParser(
-    std::unique_ptr<instructions::IParser> instrParser)
+void InputInteractCommand::setInstrParser(std::unique_ptr<instructions::IParser> instrParser)
 {
     m_instr_parser = std::move(instrParser);
 }
@@ -104,9 +106,7 @@ InputInteractCommand::InputInteractCommand()
     : m_reader(std::make_unique<reading::ConsoleReader>())
     , m_instr_parser(std::make_unique<instructions::Parser>()){};
 
-bool InputInteractCommand::run(
-    std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-        storage) const
+bool InputInteractCommand::run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const
 {
     auto lines = m_reader->read(std::cin);
     std::uint16_t lineCounter = 0;

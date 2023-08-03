@@ -1,5 +1,5 @@
-#ifndef ELEMVM_INSTRUCTION_ICOMPLEX_HPP
-#define ELEMVM_INSTRUCTION_ICOMPLEX_HPP
+#ifndef ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP
+#define ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP
 
 #include <memory>
 #include <stack>
@@ -16,9 +16,7 @@ class IComplex : public ICommand
 public:
     IComplex(std::shared_ptr<const operands::IOperand> value)
         : m_operand(value){};
-    virtual eInstrResult run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const = 0;
+    virtual eInstrResult run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const = 0;
 
 protected:
     std::shared_ptr<const operands::IOperand> m_operand;
@@ -27,4 +25,4 @@ protected:
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_INSTRUCTION_ICOMPLEX_HPP
+#endif  // ELEMVM_PARSER_INSTRUCTION_ICOMPLEX_HPP

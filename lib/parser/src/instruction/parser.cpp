@@ -6,6 +6,7 @@
 #include <string>
 
 #include "instruction/commands.hpp"
+#include "instruction/icommand.hpp"
 
 namespace elemvm
 {
@@ -16,17 +17,19 @@ namespace instructions
 Parser::Parser()
     : m_instrCreator(std::make_shared<InstructionCreator>())
 {
-    m_instructionsMap["put"] = eInstruction::PUT;
-    m_instructionsMap["pop"] = eInstruction::POP;
-    m_instructionsMap["add"] = eInstruction::ADD;
-    m_instructionsMap["sub"] = eInstruction::SUB;
-    m_instructionsMap["div"] = eInstruction::DIV;
-    m_instructionsMap["mul"] = eInstruction::MUL;
-    m_instructionsMap["mod"] = eInstruction::MOD;
-    m_instructionsMap["end"] = eInstruction::END;
-    m_instructionsMap["assert"] = eInstruction::ASSERT;
-    m_instructionsMap["print"] = eInstruction::PRINT;
-    m_instructionsMap["trace"] = eInstruction::TRACE;
+    m_instructionsMap = {
+        {"put", eInstruction::PUT},
+        {"pop", eInstruction::POP},
+        {"add", eInstruction::ADD},
+        {"sub", eInstruction::SUB},
+        {"div", eInstruction::DIV},
+        {"mul", eInstruction::MUL},
+        {"mod", eInstruction::MOD},
+        {"end", eInstruction::END},
+        {"assert", eInstruction::ASSERT},
+        {"print", eInstruction::PRINT},
+        {"trace", eInstruction::TRACE},
+    };
 }
 
 void Parser::setCreator(std::shared_ptr<InstructionCreator> creator)
@@ -47,8 +50,7 @@ std::unique_ptr<const ICommand> Parser::parse(
     const std::string& line) const
 {
     std::cout << "[InstructionsParser::parse] Parsing instruction...\n";
-    std::regex pattern(
-        R"([\s]*([a-z]+)([\s]+[a-z]+[0-9]+\((?:[-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\))?[\s]*)");
+    std::regex pattern(R"([\s]*([a-z]+)([\s]+[a-z]+[0-9]+\((?:[-+]?[0-9]*(?:\.[0-9]*(?:f|(?:e\+?[0-9]+))?)?)\))?[\s]*)");
     auto line_without_comments = remove_comment(line);
     if (line_without_comments.empty())
     {
@@ -62,7 +64,6 @@ std::unique_ptr<const ICommand> Parser::parse(
             return std::unique_ptr<const ICommand>(m_instrCreator->create(m_instructionsMap.at(match[1]), match[2]));
         }
     }
-
     throw std::runtime_error("[ERROR] Unknown Instruction.");
 };
 

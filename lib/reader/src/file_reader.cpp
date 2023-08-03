@@ -6,6 +6,10 @@ namespace elemvm
 {
 namespace reading
 {
+FileReader::FileReader(std::string path)
+    : m_out(std::cout)
+    , m_path(path){};
+
 std::vector<std::string> FileReader::read(std::istream& in) const
 {
     // TODO(1): Fix workaround with unused iostream argument.
@@ -29,6 +33,8 @@ std::vector<std::string> FileReader::read(std::istream& in) const
     }
     throw std::runtime_error("[ERROR] Bad input stream.");
 };
+
+FileReader::~FileReader() = default;
 
 void FileReader::setOut(std::ostream& out) { m_out.rdbuf(out.rdbuf()); };
 

@@ -1,5 +1,5 @@
-#ifndef ELEMVM_INSTRUCTION_ITRIVIAL_HPP
-#define ELEMVM_INSTRUCTION_ITRIVIAL_HPP
+#ifndef ELEMVM_PARSER_INSTRUCTION_ITRIVIAL_HPP
+#define ELEMVM_PARSER_INSTRUCTION_ITRIVIAL_HPP
 
 #include <memory>
 #include <stack>
@@ -14,12 +14,10 @@ namespace instructions
 class ITrivial : public ICommand
 {
 public:
-    virtual eInstrResult run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const = 0;
+    virtual eInstrResult run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const = 0;
 };
 
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_INSTRUCTION_ITRIVIAL_HPP
+#endif  // ELEMVM_PARSER_INSTRUCTION_ITRIVIAL_HPP

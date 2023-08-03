@@ -1,12 +1,15 @@
-#ifndef ELEMVM_INSTRUCTION_ICOMMAND_HPP
-#define ELEMVM_INSTRUCTION_ICOMMAND_HPP
+#ifndef ELEMVM_PARSER_INSTRUCTION_ICOMMAND_HPP
+#define ELEMVM_PARSER_INSTRUCTION_ICOMMAND_HPP
 
 #include <memory>
 #include <stack>
 
-#include "ioperand.hpp"
 namespace elemvm
 {
+namespace operands
+{
+class IOperand;
+}
 namespace parsing
 {
 namespace instructions
@@ -34,13 +37,11 @@ enum class eInstruction : int
 class ICommand
 {
 public:
-    virtual eInstrResult run(
-        std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>>
-            storage) const = 0;
+    virtual eInstrResult run(std::shared_ptr<std::stack<std::shared_ptr<const operands::IOperand>>> storage) const = 0;
     virtual ~ICommand(){};
 };
 
 }  // namespace instructions
 }  // namespace parsing
 }  // namespace elemvm
-#endif  // ELEMVM_INSTRUCTION_ICOMMAND_HPP
+#endif  // ELEMVM_PARSER_INSTRUCTION_ICOMMAND_HPP
